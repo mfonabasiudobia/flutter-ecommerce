@@ -62,7 +62,7 @@ class _EcommerceProductsLayoutState
   int page = 1;
   int perPage = 20;
   List<FilterCategory> filterCategoryList = [
-    FilterCategory(id: 0, name: 'All')
+    FilterCategory(id: 0, name: 'All'),
   ];
   @override
   void initState() {
@@ -103,7 +103,9 @@ class _EcommerceProductsLayoutState
   }
 
   void _fetchProducts({required bool isPagination}) {
-    ref.read(productControllerProvider.notifier).getCategoryWiseProducts(
+    ref
+        .read(productControllerProvider.notifier)
+        .getCategoryWiseProducts(
           productFilterModel: ProductFilterModel(
             categoryId: widget.categoryId,
             page: page,
@@ -112,11 +114,24 @@ class _EcommerceProductsLayoutState
             qualities: widget.qualityID,
             search: searchController.text,
             sortType: widget.sortType,
-            subCategoryId: ref.watch(selectedCategory) != 0
-                ? ref.watch(selectedCategory)
-                : null,
+            subCategoryId:
+                ref.watch(selectedCategory) != 0
+                    ? ref.watch(selectedCategory)
+                    : null,
           ),
           isPagination: isPagination,
+        );
+  }
+
+  void _searchProducts() {
+    ref
+        .read(productControllerProvider.notifier)
+        .getSearchProducts(
+          productFilterModel: ProductFilterModel(
+            page: page,
+            perPage: perPage,
+            search: searchController.text,
+          ),
         );
   }
 
@@ -152,15 +167,13 @@ class _EcommerceProductsLayoutState
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor ==
-              const Color.fromARGB(255, 1, 1, 2)
-          ? colors(context).dark
-          : colors(context).accentColor,
+      backgroundColor:
+          Theme.of(context).scaffoldBackgroundColor ==
+                  const Color.fromARGB(255, 1, 1, 2)
+              ? colors(context).dark
+              : colors(context).accentColor,
       body: Column(
-        children: [
-          _buildHeaderWidget(context),
-          _buildProductsWidget(context),
-        ],
+        children: [_buildHeaderWidget(context), _buildProductsWidget(context)],
       ),
     );
   }
@@ -169,24 +182,28 @@ class _EcommerceProductsLayoutState
     return AnimatedContainer(
       duration: const Duration(milliseconds: 500),
       color: GlobalFunction.getContainerColor(),
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h)
-          .copyWith(top: !isHeaderVisible ? 35.h : 50.h),
+      padding: EdgeInsets.symmetric(
+        horizontal: 16.w,
+        vertical: 12.h,
+      ).copyWith(top: !isHeaderVisible ? 35.h : 50.h),
       child: Column(
         children: [
-          if (isHeaderVisible) ...[
-            _buildHeaderRow(context),
-            Gap(20.h),
-          ],
+          if (isHeaderVisible) ...[_buildHeaderRow(context), Gap(20.h)],
           _buildFilterRow(context),
           Gap(8.h),
           Visibility(
-              visible: widget.sortType == null,
-              child: Divider(
-                  color: colors(context).accentColor, height: 2, thickness: 2)),
+            visible: widget.sortType == null,
+            child: Divider(
+              color: colors(context).accentColor,
+              height: 2,
+              thickness: 2,
+            ),
+          ),
           Visibility(
-              visible:
-                  widget.sortType == null && widget.subCategories!.isNotEmpty,
-              child: _buildFilterListWidget()),
+            visible:
+                widget.sortType == null && widget.subCategories!.isNotEmpty,
+            child: _buildFilterListWidget(),
+          ),
         ],
       ),
     );
@@ -195,10 +212,7 @@ class _EcommerceProductsLayoutState
   Widget _buildHeaderRow(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        _buildLeftRow(context),
-        _buildRightRow(context),
-      ],
+      children: [_buildLeftRow(context), _buildRightRow(context)],
     );
   }
 
@@ -249,14 +263,15 @@ class _EcommerceProductsLayoutState
         ),
       ),
       context: context,
-      builder: (_) => FilterModalBottomSheet(
-        filetData: filterData!,
-        productFilterModel: ProductFilterModel(
-          page: 1,
-          perPage: 20,
-          categoryId: widget.categoryId,
-        ),
-      ),
+      builder:
+          (_) => FilterModalBottomSheet(
+            filetData: filterData!,
+            productFilterModel: ProductFilterModel(
+              page: 1,
+              perPage: 20,
+              categoryId: widget.categoryId,
+            ),
+          ),
     );
   }
 
@@ -273,7 +288,7 @@ class _EcommerceProductsLayoutState
             controller: searchController,
             onChanged: (value) {
               page = 1;
-              _fetchProducts(isPagination: false);
+              _searchProducts();
             },
             widget: Container(
               margin: EdgeInsets.all(10.sp),
@@ -317,17 +332,20 @@ class _EcommerceProductsLayoutState
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.r),
                 border: Border.all(
-                    color: ref.watch(selectedCategory) ==
-                            filterCategoryList[index].id
-                        ? colors(context).primaryColor!
-                        : colors(context).accentColor!),
+                  color:
+                      ref.watch(selectedCategory) ==
+                              filterCategoryList[index].id
+                          ? colors(context).primaryColor!
+                          : colors(context).accentColor!,
+                ),
               ),
               child: Center(
                 child: Text(
-                    index == 0
-                        ? S.of(context).all
-                        : filterCategoryList[index].name,
-                    style: AppTextStyle(context).bodyTextSmall),
+                  index == 0
+                      ? S.of(context).all
+                      : filterCategoryList[index].name,
+                  style: AppTextStyle(context).bodyTextSmall,
+                ),
               ),
             ),
           );
@@ -350,9 +368,10 @@ class _EcommerceProductsLayoutState
 
     return Flexible(
       flex: 5,
-      child: isList
-          ? _buildListProductsWidget(context)
-          : _buildGridProductsWidget(context),
+      child:
+          isList
+              ? _buildListProductsWidget(context)
+              : _buildGridProductsWidget(context),
     );
   }
 
@@ -376,11 +395,13 @@ class _EcommerceProductsLayoutState
                 child: FadeInAnimation(
                   child: ListProductCard(
                     product: product,
-                    onTap: () => context.nav.pushNamed(
-                      Routes.getProductDetailsRouteName(
-                          AppConstants.appServiceName),
-                      arguments: product.id,
-                    ),
+                    onTap:
+                        () => context.nav.pushNamed(
+                          Routes.getProductDetailsRouteName(
+                            AppConstants.appServiceName,
+                          ),
+                          arguments: product.id,
+                        ),
                   ),
                 ),
               ),
@@ -414,11 +435,13 @@ class _EcommerceProductsLayoutState
             child: ScaleAnimation(
               child: ProductCard(
                 product: product,
-                onTap: () => context.nav.pushNamed(
-                  Routes.getProductDetailsRouteName(
-                      AppConstants.appServiceName),
-                  arguments: product.id,
-                ),
+                onTap:
+                    () => context.nav.pushNamed(
+                      Routes.getProductDetailsRouteName(
+                        AppConstants.appServiceName,
+                      ),
+                      arguments: product.id,
+                    ),
               ),
             ),
           );
