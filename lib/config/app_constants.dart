@@ -17,6 +17,7 @@ class AppConstants {
   static const String getShops = '$baseUrl/shops';
   static const String getShopDetails = '$baseUrl/shop';
   static const String getProducts = '$baseUrl/products';
+  static const String getSearchProducts = '$baseUrl/products/filter/advanced';
   static const String getShopCategiries = '$baseUrl/shop-categories';
   static const String getReviews = '$baseUrl/reviews';
   static const String getCategoryWiseProducts = '$baseUrl/category-products';
@@ -26,6 +27,7 @@ class AppConstants {
   static const String getFavoriteProducts = '$baseUrl/favorite-products';
   static const String addAddess = '$baseUrl/address/store';
   static const String address = '$baseUrl/address';
+
   static const String getAddress = '$baseUrl/addresses';
   static const String addToCart = '$baseUrl/cart/store';
   static const String incrementQty = '$baseUrl/cart/increment';
