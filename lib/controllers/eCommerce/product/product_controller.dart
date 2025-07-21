@@ -14,7 +14,8 @@ final selectedSizePriceProvider = StateProvider<double>((ref) => 0);
 
 final productControllerProvider =
     StateNotifierProvider<ProductController, bool>(
-        (ref) => ProductController(ref));
+      (ref) => ProductController(ref),
+    );
 
 class ProductController extends StateNotifier<bool> {
   final Ref ref;
@@ -43,16 +44,50 @@ class ProductController extends StateNotifier<bool> {
       _total = response.data['data']['total'];
       List<dynamic> productData = response.data['data']['products'];
 
-      List<Product> productDataFromModel = productData
-          .map((product) => Product.fromMap(product))
-          .where((p) => p.quantity != 0)
-          .toList();
+      List<Product> productDataFromModel =
+          productData
+              .map((product) => Product.fromMap(product))
+              .where((p) => p.quantity != 0)
+              .toList();
 
       if (isPagination) {
         _products.addAll(productDataFromModel);
       } else {
         _products = productDataFromModel;
       }
+
+      // ✅ Force a rebuild by toggling the state (from true to false or false to true)
+      state = !state;
+    } catch (error) {
+      debugPrint(error.toString());
+      state = false;
+    }
+  }
+
+  Future<void> getSearchProducts({
+    required ProductFilterModel productFilterModel,
+  }) async {
+    try {
+      state = true;
+
+      final response = await ref
+          .read(productServiceProvider)
+          .getSearchProducts(productFilterModel: productFilterModel);
+
+      _total = response.data['data']['meta']['total'];
+      List<dynamic> productData = response.data['data']['products'];
+
+      List<Product> productDataFromModel =
+          productData
+              .map((product) => Product.fromMap(product))
+              .where((p) => p.quantity != 0)
+              .toList();
+
+      // if (isPagination) {
+      //   _products.addAll(productDataFromModel);
+      // } else {
+      _products = productDataFromModel;
+      // }
 
       // ✅ Force a rebuild by toggling the state (from true to false or false to true)
       state = !state;
@@ -82,9 +117,10 @@ class ProductController extends StateNotifier<bool> {
       final response =
           await ref.read(productServiceProvider).getFavoriteProducts();
       List<dynamic> favoriteProductsData = response.data['data']['products'];
-      _favoriteProducts = favoriteProductsData
-          .map((product) => Product.fromMap(product))
-          .toList();
+      _favoriteProducts =
+          favoriteProductsData
+              .map((product) => Product.fromMap(product))
+              .toList();
       state = false;
       return CommonResponse(isSuccess: true, message: response.data['message']);
     } catch (error) {
@@ -96,12 +132,15 @@ class ProductController extends StateNotifier<bool> {
 }
 
 final productDetailsControllerProvider = StateNotifierProvider.family
-    .autoDispose<ProductDetailsController,
-        AsyncValue<product_details.ProductDetails>, int>((ref, productId) {
-  final controller = ProductDetailsController(ref);
-  controller.getProductDetails(productId: productId);
-  return controller;
-});
+    .autoDispose<
+      ProductDetailsController,
+      AsyncValue<product_details.ProductDetails>,
+      int
+    >((ref, productId) {
+      final controller = ProductDetailsController(ref);
+      controller.getProductDetails(productId: productId);
+      return controller;
+    });
 
 class ProductDetailsController
     extends StateNotifier<AsyncValue<product_details.ProductDetails>> {
@@ -118,8 +157,9 @@ class ProductDetailsController
     } catch (error, stackTrace) {
       debugPrint(error.toString());
       state = AsyncError(
-          error is DioException ? ApiInterceptors.handleError(error) : error,
-          stackTrace);
+        error is DioException ? ApiInterceptors.handleError(error) : error,
+        stackTrace,
+      );
       rethrow;
     }
   }
