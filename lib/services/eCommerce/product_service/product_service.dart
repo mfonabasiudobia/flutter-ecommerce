@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ready_ecommerce/config/app_constants.dart';
@@ -9,9 +11,12 @@ class ProductService implements ProductProviderBase {
   final Ref ref;
   ProductService(this.ref);
   @override
-  Future<Response> getCategoryWiseProducts(
-      {required ProductFilterModel productFilterModel}) async {
-    final response = await ref.read(apiClientProvider).get(
+  Future<Response> getCategoryWiseProducts({
+    required ProductFilterModel productFilterModel,
+  }) async {
+    final response = await ref
+        .read(apiClientProvider)
+        .get(
           AppConstants.getCategoryWiseProducts,
           query: productFilterModel.toMap(),
         );
@@ -19,27 +24,48 @@ class ProductService implements ProductProviderBase {
   }
 
   @override
+  Future<Response> getSearchProducts({
+    required ProductFilterModel productFilterModel,
+  }) async {
+    final response = await ref
+        .read(apiClientProvider)
+        .get(
+          AppConstants.getSearchProducts,
+          query: {
+            "page": productFilterModel.page,
+            "per_page": 12,
+            "search": productFilterModel.search,
+            "filters": {},
+          },
+        );
+
+    return response;
+  }
+
+  @override
   Future<Response> getProductDetails({required int productId}) async {
-    final response = await ref.read(apiClientProvider).get(
-      AppConstants.getProductDetails,
-      query: {"product_id": productId},
-    );
+    final response = await ref
+        .read(apiClientProvider)
+        .get(AppConstants.getProductDetails, query: {"product_id": productId});
     return response;
   }
 
   @override
   Future<Response> favoriteProductAddRemove({required int productId}) async {
-    final response = await ref.read(apiClientProvider).post(
-      AppConstants.productFavoriteAddRemoveUrl,
-      data: {'product_id': productId},
-    );
+    final response = await ref
+        .read(apiClientProvider)
+        .post(
+          AppConstants.productFavoriteAddRemoveUrl,
+          data: {'product_id': productId},
+        );
     return response;
   }
 
   @override
   Future<Response> getFavoriteProducts() async {
-    final response =
-        await ref.read(apiClientProvider).get(AppConstants.getFavoriteProducts);
+    final response = await ref
+        .read(apiClientProvider)
+        .get(AppConstants.getFavoriteProducts);
     return response;
   }
 }
