@@ -12,6 +12,7 @@ class Dashboard {
   final List<Banner> ads;
   final List<Category> categories;
   final List<product.Product> popularProducts;
+  final List<product.Product> latestProducts;
   final List<Shop> shops;
   final JustForYou justForYou;
   final List<CategoryFilter> qualities;
@@ -21,6 +22,7 @@ class Dashboard {
     required this.ads,
     required this.categories,
     required this.popularProducts,
+    required this.latestProducts,
     required this.shops,
     required this.justForYou,
     required this.qualities,
@@ -32,6 +34,7 @@ class Dashboard {
     List<Banner>? ads,
     List<Category>? categories,
     List<product.Product>? popularProducts,
+    List<product.Product>? latestProducts,
     List<Shop>? shops,
     JustForYou? justForYou,
     List<CategoryFilter>? qualities,
@@ -43,6 +46,7 @@ class Dashboard {
       categories: categories ?? this.categories,
       shops: shops ?? this.shops,
       popularProducts: popularProducts ?? this.popularProducts,
+      latestProducts: latestProducts ?? this.latestProducts,
       justForYou: justForYou ?? this.justForYou,
       qualities: qualities ?? this.qualities,
       season: season ?? this.season,
@@ -55,6 +59,7 @@ class Dashboard {
       'ads': ads.map((x) => x.toMap()).toList(),
       'categories': categories.map((x) => x.toMap()).toList(),
       'popularProducts': popularProducts.map((x) => x.toMap()).toList(),
+      'latestProducts': latestProducts.map((x) => x.toMap()).toList(),
       'justForYou': justForYou.toMap(),
       'qualities': qualities.map((x) => x.toMap()).toList(),
       'seasons': season.map((x) => x.toMap()).toList(),
@@ -97,6 +102,11 @@ class Dashboard {
       ),
       popularProducts: List<product.Product>.from(
         (map['popular_products'] as List<dynamic>).map<product.Product>(
+          (x) => product.Product.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
+      latestProducts: List<product.Product>.from(
+        (map['latest_products'] as List<dynamic>).map<product.Product>(
           (x) => product.Product.fromMap(x as Map<String, dynamic>),
         ),
       ),

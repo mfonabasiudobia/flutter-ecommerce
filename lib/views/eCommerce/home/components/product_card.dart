@@ -19,19 +19,13 @@ class ProductCard extends StatelessWidget {
   final Product product;
   final void Function()? onTap;
 
-  const ProductCard({
-    super.key,
-    required this.product,
-    required this.onTap,
-  });
+  const ProductCard({super.key, required this.product, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Theme.of(context).scaffoldBackgroundColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.0.r),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0.r)),
       child: InkWell(
         borderRadius: BorderRadius.circular(8.0.r),
         onTap: onTap,
@@ -87,9 +81,9 @@ class ProductCard extends StatelessWidget {
               child: Center(
                 child: Text(
                   S.of(context).outOfStock,
-                  style: AppTextStyle(context).subTitle.copyWith(
-                        color: colors(context).light,
-                      ),
+                  style: AppTextStyle(
+                    context,
+                  ).subTitle.copyWith(color: colors(context).light),
                 ),
               ),
             ),
@@ -111,9 +105,9 @@ class ProductCard extends StatelessWidget {
         child: Text(
           '-${product.discountPercentage}%',
           style: AppTextStyle(context).bodyTextSmall.copyWith(
-                color: colors(context).light,
-                fontWeight: FontWeight.w700,
-              ),
+            color: colors(context).light,
+            fontWeight: FontWeight.w700,
+          ),
         ),
       ),
     );
@@ -129,15 +123,15 @@ class ProductCard extends StatelessWidget {
               Gap(5.h),
               Text(
                 '${product.name}\n',
-                style: AppTextStyle(context)
-                    .bodyText
-                    .copyWith(fontWeight: FontWeight.w500),
+                style: AppTextStyle(
+                  context,
+                ).bodyText.copyWith(fontWeight: FontWeight.w500),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
               Gap(5.h),
               _buildReviewAndSoldCount(context: context),
-              Gap(product.discountPrice > 0 ? 8.h : 10.h),
+              // Gap(product.discountPrice > 0 ? 8.h : 10.h),
               _buildPriceAndAddToCart(context: context),
             ],
           ),
@@ -164,117 +158,123 @@ class ProductCard extends StatelessWidget {
               product.productSizeList.isNotEmpty
                   ? "${product.productSizeList.first.name} KG"
                   : "",
-              style: AppTextStyle(context).bodyTextSmall.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
+              style: AppTextStyle(
+                context,
+              ).bodyTextSmall.copyWith(fontWeight: FontWeight.w700),
             ),
           ],
         ),
         Text(
           '${product.totalSold} Sold',
-          style: AppTextStyle(context).bodyTextSmall.copyWith(
-                fontWeight: FontWeight.w500,
-              ),
+          style: AppTextStyle(
+            context,
+          ).bodyTextSmall.copyWith(fontWeight: FontWeight.w500),
         ),
       ],
     );
   }
 
   Widget _buildPriceAndAddToCart({required BuildContext context}) {
-    return Consumer(builder: (context, ref, _) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            children: [
-              if (product.discountPrice > 0) ...[
-                Text(
-                  GlobalFunction.price(
-                    currency: ref
-                        .read(masterControllerProvider.notifier)
-                        .materModel
-                        .data
-                        .currency
-                        .symbol,
-                    position: ref
-                        .read(masterControllerProvider.notifier)
-                        .materModel
-                        .data
-                        .currency
-                        .position,
-                    price: product.discountPrice.toString(),
+    return Consumer(
+      builder: (context, ref, _) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              children: [
+                if (product.discountPrice > 0) ...[
+                  Text(
+                    GlobalFunction.price(
+                      currency:
+                          ref
+                              .read(masterControllerProvider.notifier)
+                              .materModel
+                              .data
+                              .currency
+                              .symbol,
+                      position:
+                          ref
+                              .read(masterControllerProvider.notifier)
+                              .materModel
+                              .data
+                              .currency
+                              .position,
+                      price: product.discountPrice.toString(),
+                    ),
+                    style: AppTextStyle(
+                      context,
+                    ).bodyText.copyWith(fontWeight: FontWeight.bold),
                   ),
-                  style: AppTextStyle(context)
-                      .bodyText
-                      .copyWith(fontWeight: FontWeight.bold),
-                ),
-              ] else ...[
-                Text(
-                  GlobalFunction.price(
-                    currency: ref
-                        .read(masterControllerProvider.notifier)
-                        .materModel
-                        .data
-                        .currency
-                        .symbol,
-                    position: ref
-                        .read(masterControllerProvider.notifier)
-                        .materModel
-                        .data
-                        .currency
-                        .position,
-                    price: product.price.toString(),
+                ] else ...[
+                  Text(
+                    GlobalFunction.price(
+                      currency:
+                          ref
+                              .read(masterControllerProvider.notifier)
+                              .materModel
+                              .data
+                              .currency
+                              .symbol,
+                      position:
+                          ref
+                              .read(masterControllerProvider.notifier)
+                              .materModel
+                              .data
+                              .currency
+                              .position,
+                      price: product.price.toString(),
+                    ),
+                    style: AppTextStyle(
+                      context,
+                    ).bodyText.copyWith(fontWeight: FontWeight.bold),
                   ),
-                  style: AppTextStyle(context)
-                      .bodyText
-                      .copyWith(fontWeight: FontWeight.bold),
-                ),
+                ],
+                if (product.discountPrice > 0) ...[
+                  Text(
+                    GlobalFunction.price(
+                      currency:
+                          ref
+                              .read(masterControllerProvider.notifier)
+                              .materModel
+                              .data
+                              .currency
+                              .symbol,
+                      position:
+                          ref
+                              .read(masterControllerProvider.notifier)
+                              .materModel
+                              .data
+                              .currency
+                              .position,
+                      price: product.price.toString(),
+                    ),
+                    style: AppTextStyle(context).bodyText.copyWith(
+                      color: EcommerceAppColor.lightGray,
+                      decoration: TextDecoration.lineThrough,
+                      decorationColor: EcommerceAppColor.lightGray,
+                    ),
+                  ),
+                ],
               ],
-              if (product.discountPrice > 0) ...[
-                Text(
-                  GlobalFunction.price(
-                    currency: ref
-                        .read(masterControllerProvider.notifier)
-                        .materModel
-                        .data
-                        .currency
-                        .symbol,
-                    position: ref
-                        .read(masterControllerProvider.notifier)
-                        .materModel
-                        .data
-                        .currency
-                        .position,
-                    price: product.price.toString(),
+            ),
+            IncrementButton(
+              onTap: () {
+                ref.refresh(selectedProductSizeIndex.notifier).state;
+                ref.refresh(selectedProductColorIndex.notifier).state;
+                showModalBottomSheet(
+                  isScrollControlled: true,
+                  isDismissible: false,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16.r),
                   ),
-                  style: AppTextStyle(context).bodyText.copyWith(
-                        color: EcommerceAppColor.lightGray,
-                        decoration: TextDecoration.lineThrough,
-                        decorationColor: EcommerceAppColor.lightGray,
-                      ),
-                ),
-              ]
-            ],
-          ),
-          IncrementButton(
-            onTap: () {
-              ref.refresh(selectedProductSizeIndex.notifier).state;
-              ref.refresh(selectedProductColorIndex.notifier).state;
-              showModalBottomSheet(
-                isScrollControlled: true,
-                isDismissible: false,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16.r),
-                ),
-                context: context,
-                builder: (_) => AddToCartBottomSheet(
-                  product: product,
-                ),
-              );
-            },
-          )
-        ],
-      );
-    });
+                  context: context,
+                  builder: (_) => AddToCartBottomSheet(product: product),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

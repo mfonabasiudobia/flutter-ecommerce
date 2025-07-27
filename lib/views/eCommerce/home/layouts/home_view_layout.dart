@@ -116,170 +116,157 @@ class _EcommerceHomeViewLayoutState
             _buildHeaderWidget(context),
             Flexible(
               flex: 5,
-              child: ref
-                  .watch(dashboardControllerProvider)
-                  .when(
-                    data:
-                        (dashboardData) => RefreshIndicator(
-                          onRefresh: () async {
-                            ref.refresh(dashboardControllerProvider).value;
-                            ref.refresh(flashSalesListControllerProvider);
-                            // ref
-                            //     .read(flashSalesListControllerProvider.notifier)
-                            //     .getFlashSalesList();
-                          },
-                          child: SingleChildScrollView(
-                            controller: scrollController,
-                            child: AnimationLimiter(
-                              child: Column(
-                                children: AnimationConfiguration.toStaggeredList(
-                                  duration: const Duration(milliseconds: 375),
-                                  childAnimationBuilder:
-                                      (widget) => SlideAnimation(
-                                        verticalOffset: 50.h,
-                                        child: FadeInAnimation(child: widget),
+              child: ref.watch(dashboardControllerProvider).when(
+                    data: (dashboardData) => RefreshIndicator(
+                      onRefresh: () async {
+                        ref.refresh(dashboardControllerProvider).value;
+                        ref.refresh(flashSalesListControllerProvider);
+                        // ref
+                        //     .read(flashSalesListControllerProvider.notifier)
+                        //     .getFlashSalesList();
+                      },
+                      child: SingleChildScrollView(
+                        controller: scrollController,
+                        child: AnimationLimiter(
+                          child: Column(
+                            children: AnimationConfiguration.toStaggeredList(
+                              duration: const Duration(milliseconds: 375),
+                              childAnimationBuilder: (widget) => SlideAnimation(
+                                verticalOffset: 50.h,
+                                child: FadeInAnimation(child: widget),
+                              ),
+                              children: [
+                                Gap(20.h),
+                                // _buildBannerWidget(context, dashboardData),
+                                BannerWidget(dashboardData: dashboardData),
+                                Gap(20.h),
+                                _buildCategoriesWidget(
+                                  context,
+                                  dashboardData.categories,
+                                ),
+                                Gap(10.h),
+                                ListView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: dashboardData.ads.length,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding: EdgeInsets.only(
+                                        bottom: 20.h,
+                                        left: 20.w,
+                                        right: 20.w,
                                       ),
-                                  children: [
-                                    Gap(20.h),
-                                    // _buildBannerWidget(context, dashboardData),
-                                    BannerWidget(dashboardData: dashboardData),
-                                    Gap(20.h),
-                                    _buildCategoriesWidget(
-                                      context,
-                                      dashboardData.categories,
-                                    ),
-                                    Gap(10.h),
-                                    ListView.builder(
-                                      physics: NeverScrollableScrollPhysics(),
-                                      shrinkWrap: true,
-                                      itemCount: dashboardData.ads.length,
-                                      itemBuilder: (context, index) {
-                                        return Padding(
-                                          padding: EdgeInsets.only(
-                                            bottom: 20.h,
-                                            left: 20.w,
-                                            right: 20.w,
+                                      child: SizedBox(
+                                        height: 250.h,
+                                        width: MediaQuery.of(
+                                          context,
+                                        ).size.width,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(12.r),
+                                          child: CachedNetworkImage(
+                                            width: double.infinity,
+                                            fit: BoxFit.fill,
+                                            imageUrl: dashboardData
+                                                .ads[index].thumbnail,
                                           ),
-                                          child: SizedBox(
-                                            height: 250.h,
-                                            width:
-                                                MediaQuery.of(
-                                                  context,
-                                                ).size.width,
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(12.r),
-                                              child: CachedNetworkImage(
-                                                width: double.infinity,
-                                                fit: BoxFit.fill,
-                                                imageUrl:
-                                                    dashboardData
-                                                        .ads[index]
-                                                        .thumbnail,
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                    Gap(10.h),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                                Gap(10.h),
 
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 15.h,
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 15.h,
+                                  ),
+                                  child: Material(
+                                    elevation: 2,
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(
+                                          15,
+                                        ),
                                       ),
-                                      child: Material(
-                                        elevation: 2,
-                                        borderRadius: BorderRadius.circular(15),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                              15,
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            width: MediaQuery.of(
+                                              context,
+                                            ).size.width,
+                                            height: MediaQuery.of(
+                                                  context,
+                                                ).size.height *
+                                                .2,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(15),
+                                                topRight: Radius.circular(15),
+                                              ),
+                                              color: Color.fromRGBO(
+                                                176,
+                                                235,
+                                                217,
+                                                1,
+                                              ),
                                             ),
-                                          ),
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                width:
-                                                    MediaQuery.of(
-                                                      context,
-                                                    ).size.width,
-                                                height:
-                                                    MediaQuery.of(
-                                                      context,
-                                                    ).size.height *
-                                                    .2,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                        topLeft:
-                                                            Radius.circular(15),
-                                                        topRight:
-                                                            Radius.circular(15),
-                                                      ),
-                                                  color: Color.fromRGBO(
-                                                    176,
-                                                    235,
-                                                    217,
-                                                    1,
-                                                  ),
-                                                ),
-                                                child: Center(
-                                                  child: SizedBox(
-                                                    height: 60,
-                                                    width: 60,
-                                                    child: Image.asset(
-                                                      "assets/png/shield.png",
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
+                                            child: Center(
+                                              child: SizedBox(
+                                                height: 60,
+                                                width: 60,
+                                                child: Image.asset(
+                                                  "assets/png/shield.png",
+                                                  color: Colors.white,
                                                 ),
                                               ),
-                                              const SizedBox(height: 15),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                      horizontal: 20,
-                                                    ),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      S.of(context).category,
-                                                      style: AppTextStyle(
-                                                        context,
-                                                      ).bodyText.copyWith(
+                                            ),
+                                          ),
+                                          const SizedBox(height: 15),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 20,
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  S.of(context).category,
+                                                  style: AppTextStyle(
+                                                    context,
+                                                  ).bodyText.copyWith(
                                                         fontSize: 20,
                                                         color: Colors.black,
                                                         fontWeight:
                                                             FontWeight.w700,
                                                       ),
+                                                ),
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                    color: Color.fromRGBO(
+                                                      176,
+                                                      235,
+                                                      217,
+                                                      0.3,
                                                     ),
-                                                    Container(
-                                                      decoration: BoxDecoration(
-                                                        color: Color.fromRGBO(
-                                                          176,
-                                                          235,
-                                                          217,
-                                                          0.3,
-                                                        ),
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                              15,
-                                                            ),
-                                                      ),
-                                                      padding:
-                                                          const EdgeInsets.symmetric(
-                                                            horizontal: 10,
-                                                            vertical: 4,
-                                                          ),
-                                                      child: Text(
-                                                        "${(calculateCount(dashboardData.qualities))} ${S.of(context).article}",
-                                                        style: AppTextStyle(
-                                                          context,
-                                                        ).bodyText.copyWith(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                      15,
+                                                    ),
+                                                  ),
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                    horizontal: 10,
+                                                    vertical: 4,
+                                                  ),
+                                                  child: Text(
+                                                    "${(calculateCount(dashboardData.qualities))} ${S.of(context).article}",
+                                                    style: AppTextStyle(
+                                                      context,
+                                                    ).bodyText.copyWith(
                                                           fontSize: 12,
                                                           color: Color.fromRGBO(
                                                             105,
@@ -290,197 +277,184 @@ class _EcommerceHomeViewLayoutState
                                                           fontWeight:
                                                               FontWeight.w500,
                                                         ),
-                                                      ),
-                                                    ),
-                                                  ],
+                                                  ),
                                                 ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                      horizontal: 15,
-                                                    ),
-                                                child: GridView.builder(
-                                                  physics:
-                                                      NeverScrollableScrollPhysics(),
-                                                  shrinkWrap: true,
-                                                  gridDelegate:
-                                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                                        crossAxisCount: 2,
-                                                        crossAxisSpacing: 16.w,
-                                                        mainAxisSpacing: 16.h,
-                                                        childAspectRatio: 3,
-                                                      ),
-                                                  itemCount:
-                                                      dashboardData
-                                                          .qualities
-                                                          .length,
-                                                  itemBuilder: (
-                                                    context,
-                                                    index,
-                                                  ) {
-                                                    return GestureDetector(
-                                                      onTap: () {
-                                                        Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                            builder:
-                                                                (
-                                                                  context,
-                                                                ) => EcommerceProductsLayout(
-                                                                  categoryId:
-                                                                      null,
-                                                                  categoryName:
-                                                                      'Popular',
-                                                                  sortType:
-                                                                      'popular',
-                                                                  subCategories:
-                                                                      subCategories,
-                                                                  qualityID:
-                                                                      dashboardData
-                                                                          .qualities[index]
-                                                                          .id,
-                                                                ),
-                                                          ),
-                                                        );
-                                                        context.nav.pushNamed(
-                                                          Routes.getProductsViewRouteName(
-                                                            AppConstants
-                                                                .appServiceName,
-                                                          ),
-                                                          arguments: [
-                                                            null,
-                                                            'Popular',
-                                                            'popular',
-                                                            null,
-                                                            null,
-                                                            subCategories,
-                                                            dashboardData
-                                                                .qualities[index]
-                                                                .id,
-                                                            dashboardData
-                                                                .qualities[index]
-                                                                .id,
-                                                          ],
-                                                        );
-                                                      },
-                                                      child: commonCategoryBox(
-                                                        count:
-                                                            dashboardData
-                                                                .qualities[index]
-                                                                .count,
-                                                        name:
-                                                            dashboardData
-                                                                .qualities[index]
-                                                                .title,
-                                                      ),
-                                                    );
-                                                  },
-                                                ),
-                                              ),
-                                              const SizedBox(height: 15),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 20),
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 15.h,
-                                      ),
-                                      child: Material(
-                                        elevation: 2,
-                                        borderRadius: BorderRadius.circular(15),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                              15,
+                                              ],
                                             ),
                                           ),
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                width:
-                                                    MediaQuery.of(
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 15,
+                                            ),
+                                            child: GridView.builder(
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
+                                              shrinkWrap: true,
+                                              gridDelegate:
+                                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 2,
+                                                crossAxisSpacing: 16.w,
+                                                mainAxisSpacing: 16.h,
+                                                childAspectRatio: 3,
+                                              ),
+                                              itemCount: dashboardData
+                                                  .qualities.length,
+                                              itemBuilder: (
+                                                context,
+                                                index,
+                                              ) {
+                                                return GestureDetector(
+                                                  onTap: () {
+                                                    Navigator.push(
                                                       context,
-                                                    ).size.width,
-                                                height:
-                                                    MediaQuery.of(
-                                                      context,
-                                                    ).size.height *
-                                                    .2,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                        topLeft:
-                                                            Radius.circular(15),
-                                                        topRight:
-                                                            Radius.circular(15),
+                                                      MaterialPageRoute(
+                                                        builder: (
+                                                          context,
+                                                        ) =>
+                                                            EcommerceProductsLayout(
+                                                          categoryId: null,
+                                                          categoryName:
+                                                              'Quality',
+                                                          sortType: 'quality',
+                                                          subCategories:
+                                                              subCategories,
+                                                          qualityID:
+                                                              dashboardData
+                                                                  .qualities[
+                                                                      index]
+                                                                  .id,
+                                                        ),
                                                       ),
-                                                  color: Color.fromRGBO(
-                                                    255,
-                                                    161,
-                                                    119,
-                                                    1,
+                                                    );
+                                                    // context.nav.pushNamed(
+                                                    //   Routes
+                                                    //       .getProductsViewRouteName(
+                                                    //     AppConstants
+                                                    //         .appServiceName,
+                                                    //   ),
+                                                    //   arguments: [
+                                                    //     null,
+                                                    //     'Quality',
+                                                    //     'quality',
+                                                    //     null,
+                                                    //     null,
+                                                    //     subCategories,
+                                                    //     dashboardData
+                                                    //         .qualities[index]
+                                                    //         .id,
+                                                    //     dashboardData
+                                                    //         .qualities[index]
+                                                    //         .id,
+                                                    //   ],
+                                                    // );
+                                                  },
+                                                  child: commonCategoryBox(
+                                                    count: dashboardData
+                                                        .qualities[index].count,
+                                                    name: dashboardData
+                                                        .qualities[index].title,
                                                   ),
-                                                ),
-                                                child: Center(
-                                                  child: SizedBox(
-                                                    height: 60,
-                                                    width: 60,
-                                                    child: Image.asset(
-                                                      "assets/png/sun.png",
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                          const SizedBox(height: 15),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 15.h,
+                                  ),
+                                  child: Material(
+                                    elevation: 2,
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(
+                                          15,
+                                        ),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            width: MediaQuery.of(
+                                              context,
+                                            ).size.width,
+                                            height: MediaQuery.of(
+                                                  context,
+                                                ).size.height *
+                                                .2,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(15),
+                                                topRight: Radius.circular(15),
+                                              ),
+                                              color: Color.fromRGBO(
+                                                255,
+                                                161,
+                                                119,
+                                                1,
+                                              ),
+                                            ),
+                                            child: Center(
+                                              child: SizedBox(
+                                                height: 60,
+                                                width: 60,
+                                                child: Image.asset(
+                                                  "assets/png/sun.png",
+                                                  color: Colors.white,
                                                 ),
                                               ),
-                                              const SizedBox(height: 15),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                      horizontal: 20,
-                                                    ),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      S.of(context).season,
-                                                      style: AppTextStyle(
-                                                        context,
-                                                      ).bodyText.copyWith(
+                                            ),
+                                          ),
+                                          const SizedBox(height: 15),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 20,
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  S.of(context).season,
+                                                  style: AppTextStyle(
+                                                    context,
+                                                  ).bodyText.copyWith(
                                                         fontSize: 20,
                                                         color: Colors.black,
                                                         fontWeight:
                                                             FontWeight.w700,
                                                       ),
+                                                ),
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                    color: Color.fromRGBO(
+                                                      221,
+                                                      39,
+                                                      136,
+                                                      0.3,
                                                     ),
-                                                    Container(
-                                                      decoration: BoxDecoration(
-                                                        color: Color.fromRGBO(
-                                                          221,
-                                                          39,
-                                                          136,
-                                                          0.3,
-                                                        ),
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                              15,
-                                                            ),
-                                                      ),
-                                                      padding:
-                                                          const EdgeInsets.symmetric(
-                                                            horizontal: 10,
-                                                            vertical: 4,
-                                                          ),
-                                                      child: Text(
-                                                        "${(calculateCount(dashboardData.season))} ${S.of(context).article}",
-                                                        style: AppTextStyle(
-                                                          context,
-                                                        ).bodyText.copyWith(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                      15,
+                                                    ),
+                                                  ),
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                    horizontal: 10,
+                                                    vertical: 4,
+                                                  ),
+                                                  child: Text(
+                                                    "${(calculateCount(dashboardData.season))} ${S.of(context).article}",
+                                                    style: AppTextStyle(
+                                                      context,
+                                                    ).bodyText.copyWith(
                                                           fontSize: 12,
                                                           color: Color.fromRGBO(
                                                             221,
@@ -491,256 +465,245 @@ class _EcommerceHomeViewLayoutState
                                                           fontWeight:
                                                               FontWeight.w500,
                                                         ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                      horizontal: 15,
-                                                    ),
-                                                child: GridView.builder(
-                                                  physics:
-                                                      NeverScrollableScrollPhysics(),
-                                                  shrinkWrap: true,
-                                                  gridDelegate:
-                                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                                        crossAxisCount: 2,
-                                                        crossAxisSpacing: 16.w,
-                                                        mainAxisSpacing: 16.h,
-                                                        childAspectRatio: 3,
-                                                      ),
-                                                  itemCount:
-                                                      dashboardData
-                                                          .season
-                                                          .length,
-                                                  itemBuilder: (
-                                                    context,
-                                                    index,
-                                                  ) {
-                                                    return GestureDetector(
-                                                      onTap: () {
-                                                        Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                            builder:
-                                                                (
-                                                                  context,
-                                                                ) => EcommerceProductsLayout(
-                                                                  categoryId:
-                                                                      null,
-                                                                  categoryName:
-                                                                      'Popular',
-                                                                  sortType:
-                                                                      'popular',
-                                                                  subCategories:
-                                                                      subCategories,
-                                                                  seasonID:
-                                                                      dashboardData
-                                                                          .season[index]
-                                                                          .id,
-                                                                ),
-                                                          ),
-                                                        );
-                                                      },
-                                                      child: commonCategoryBox(
-                                                        count:
-                                                            dashboardData
-                                                                .season[index]
-                                                                .count,
-                                                        name:
-                                                            dashboardData
-                                                                .season[index]
-                                                                .title,
-                                                      ),
-                                                    );
-                                                  },
-                                                ),
-                                              ),
-                                              const SizedBox(height: 15),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 20),
-                                    DealOfTheDayWidget(),
-                                    _buildScrollingContainers(),
-
-                                    _buildPopularProductWidget(
-                                      context,
-                                      dashboardData.popularProducts,
-                                    ),
-                                    if (ref
-                                        .read(masterControllerProvider.notifier)
-                                        .materModel
-                                        .data
-                                        .isMultiVendor) ...[
-                                      _buildShopsWidget(
-                                        context,
-                                        dashboardData.shops,
-                                      ),
-                                      Divider(
-                                        color: colors(context).accentColor,
-                                        thickness: 2,
-                                      ),
-                                    ],
-                                    Gap(10.h),
-                                    _buildBeautyProductWidget(
-                                      products:
-                                          dashboardData.justForYou.products,
-                                    ),
-                                    Gap(20.h),
-                                    Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      color: Colors.grey[100],
-                                      child: Column(
-                                        children: [
-                                          Gap(20.h),
-                                          Center(
-                                            child: Text(
-                                              "SERVICII PENTRU CLIENTI",
-                                              overflow: TextOverflow.ellipsis,
-                                              style: AppTextStyle(
-                                                context,
-                                              ).bodyText.copyWith(
-                                                fontSize: 15.sp,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ),
-                                          Gap(10.h),
-                                          Center(
-                                            child: Text(
-                                              "L-V 09:00-18:00",
-                                              overflow: TextOverflow.ellipsis,
-                                              style: AppTextStyle(
-                                                context,
-                                              ).bodyText.copyWith(
-                                                fontSize: 12.sp,
-                                                fontWeight: FontWeight.w300,
-                                              ),
-                                            ),
-                                          ),
-                                          Gap(5.h),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Icon(
-                                                    Icons.phone_android_sharp,
-                                                    color: Colors.grey,
-                                                    size: 30,
                                                   ),
-                                                  Gap(2.h),
-                                                  Text(
-                                                    "+40 755 511 123 ",
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: AppTextStyle(
-                                                      context,
-                                                    ).bodyText.copyWith(
-                                                      fontSize: 12.sp,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              Gap(20.w),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Icon(
-                                                    Icons.mail_outline,
-                                                    color: Colors.grey,
-                                                    size: 30,
-                                                  ),
-                                                  Gap(2.h),
-                                                  Text(
-                                                    "suport@secondhub.ro",
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: AppTextStyle(
-                                                      context,
-                                                    ).bodyText.copyWith(
-                                                      fontSize: 12.sp,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                          Gap(20.h),
-                                          Center(
-                                            child: Text(
-                                              "MODALITATI DE PLATA",
-                                              overflow: TextOverflow.ellipsis,
-                                              style: AppTextStyle(
-                                                context,
-                                              ).bodyText.copyWith(
-                                                fontSize: 15.sp,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ),
-                                          Gap(10.h),
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(
-                                              horizontal: 10.w,
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                commonImageView(
-                                                  imagePath:
-                                                      "assets/png/visa.png",
-                                                ),
-                                                commonImageView(
-                                                  imagePath:
-                                                      "assets/png/visa_electron.jpg",
-                                                ),
-                                                commonImageView(
-                                                  imagePath:
-                                                      "assets/png/master.png",
-                                                ),
-                                                commonImageView(
-                                                  imagePath:
-                                                      "assets/png/payment.png",
                                                 ),
                                               ],
                                             ),
                                           ),
-                                          Gap(20.h),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 15,
+                                            ),
+                                            child: GridView.builder(
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
+                                              shrinkWrap: true,
+                                              gridDelegate:
+                                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 2,
+                                                crossAxisSpacing: 16.w,
+                                                mainAxisSpacing: 16.h,
+                                                childAspectRatio: 3,
+                                              ),
+                                              itemCount:
+                                                  dashboardData.season.length,
+                                              itemBuilder: (
+                                                context,
+                                                index,
+                                              ) {
+                                                return GestureDetector(
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (
+                                                          context,
+                                                        ) =>
+                                                            EcommerceProductsLayout(
+                                                          categoryId: null,
+                                                          categoryName:
+                                                              'Season',
+                                                          sortType: 'season',
+                                                          subCategories:
+                                                              subCategories,
+                                                          seasonID:
+                                                              dashboardData
+                                                                  .season[index]
+                                                                  .id,
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: commonCategoryBox(
+                                                    count: dashboardData
+                                                        .season[index].count,
+                                                    name: dashboardData
+                                                        .season[index].title,
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                          const SizedBox(height: 15),
                                         ],
                                       ),
                                     ),
-                                  ],
+                                  ),
                                 ),
-                              ),
+                                const SizedBox(height: 20),
+                                DealOfTheDayWidget(),
+                                _buildScrollingContainers(),
+
+                                _buildPopularProductWidget(
+                                  context,
+                                  dashboardData.popularProducts,
+                                ),
+                                _buildLatestProductWidget(
+                                  context,
+                                  dashboardData.latestProducts,
+                                ),
+                                if (ref
+                                    .read(masterControllerProvider.notifier)
+                                    .materModel
+                                    .data
+                                    .isMultiVendor) ...[
+                                  _buildShopsWidget(
+                                    context,
+                                    dashboardData.shops,
+                                  ),
+                                  Divider(
+                                    color: colors(context).accentColor,
+                                    thickness: 2,
+                                  ),
+                                ],
+                                Gap(10.h),
+                                _buildBeautyProductWidget(
+                                  products: dashboardData.justForYou.products,
+                                ),
+                                Gap(20.h),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  color: Colors.grey[100],
+                                  child: Column(
+                                    children: [
+                                      Gap(20.h),
+                                      Center(
+                                        child: Text(
+                                          "SERVICII PENTRU CLIENTI",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: AppTextStyle(
+                                            context,
+                                          ).bodyText.copyWith(
+                                                fontSize: 15.sp,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                        ),
+                                      ),
+                                      Gap(10.h),
+                                      Center(
+                                        child: Text(
+                                          "L-V 09:00-18:00",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: AppTextStyle(
+                                            context,
+                                          ).bodyText.copyWith(
+                                                fontSize: 12.sp,
+                                                fontWeight: FontWeight.w300,
+                                              ),
+                                        ),
+                                      ),
+                                      Gap(5.h),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                Icons.phone_android_sharp,
+                                                color: Colors.grey,
+                                                size: 30,
+                                              ),
+                                              Gap(2.h),
+                                              Text(
+                                                "+40 755 511 123 ",
+                                                overflow: TextOverflow.ellipsis,
+                                                style: AppTextStyle(
+                                                  context,
+                                                ).bodyText.copyWith(
+                                                      fontSize: 12.sp,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                    ),
+                                              ),
+                                            ],
+                                          ),
+                                          Gap(20.w),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                Icons.mail_outline,
+                                                color: Colors.grey,
+                                                size: 30,
+                                              ),
+                                              Gap(2.h),
+                                              Text(
+                                                "suport@secondhub.ro",
+                                                overflow: TextOverflow.ellipsis,
+                                                style: AppTextStyle(
+                                                  context,
+                                                ).bodyText.copyWith(
+                                                      fontSize: 12.sp,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                    ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      Gap(20.h),
+                                      Center(
+                                        child: Text(
+                                          "MODALITATI DE PLATA",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: AppTextStyle(
+                                            context,
+                                          ).bodyText.copyWith(
+                                                fontSize: 15.sp,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                        ),
+                                      ),
+                                      Gap(10.h),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 10.w,
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            commonImageView(
+                                              imagePath: "assets/png/visa.png",
+                                            ),
+                                            commonImageView(
+                                              imagePath:
+                                                  "assets/png/visa_electron.jpg",
+                                            ),
+                                            commonImageView(
+                                              imagePath:
+                                                  "assets/png/master.png",
+                                            ),
+                                            commonImageView(
+                                              imagePath:
+                                                  "assets/png/payment.png",
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Gap(20.h),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
-                    error:
-                        (error, stackTrace) => Center(
-                          child: Text(
-                            error.toString(),
-                            style: AppTextStyle(context).subTitle,
-                          ),
-                        ),
-                    loading:
-                        () => const Center(child: CircularProgressIndicator()),
+                      ),
+                    ),
+                    error: (error, stackTrace) => Center(
+                      child: Text(
+                        error.toString(),
+                        style: AppTextStyle(context).subTitle,
+                      ),
+                    ),
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
                   ),
             ),
           ],
@@ -772,10 +735,10 @@ class _EcommerceHomeViewLayoutState
           Text(
             name!,
             style: AppTextStyle(context).bodyText.copyWith(
-              fontSize: 14,
-              color: Colors.black,
-              fontWeight: FontWeight.w500,
-            ),
+                  fontSize: 14,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                ),
           ),
           Container(
             height: 22,
@@ -788,10 +751,10 @@ class _EcommerceHomeViewLayoutState
             child: Text(
               count.toString(),
               style: AppTextStyle(context).bodyText.copyWith(
-                fontSize: 14,
-                color: Colors.black,
-                fontWeight: FontWeight.w400,
-              ),
+                    fontSize: 14,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w400,
+                  ),
             ),
           ),
         ],
@@ -820,17 +783,15 @@ class _EcommerceHomeViewLayoutState
             childAspectRatio: 0.5,
           ),
           itemCount: products.length,
-          itemBuilder:
-              (context, index) => ProductCard(
-                product: products[index],
-                onTap:
-                    () => context.nav.pushNamed(
-                      Routes.getProductDetailsRouteName(
-                        AppConstants.appServiceName,
-                      ),
-                      arguments: products[index].id,
-                    ),
+          itemBuilder: (context, index) => ProductCard(
+            product: products[index],
+            onTap: () => context.nav.pushNamed(
+              Routes.getProductDetailsRouteName(
+                AppConstants.appServiceName,
               ),
+              arguments: products[index].id,
+            ),
+          ),
         ),
         Positioned(
           left: 20.w,
@@ -874,9 +835,8 @@ class _EcommerceHomeViewLayoutState
                     if (category.subCategories.isNotEmpty) {
                       showModalBottomSheet(
                         context: context,
-                        builder:
-                            (context) =>
-                                SubCategoriesBottomSheet(category: category),
+                        builder: (context) =>
+                            SubCategoriesBottomSheet(category: category),
                       );
                     } else {
                       GlobalFunction.navigatorKey.currentContext!.nav.pushNamed(
@@ -949,20 +909,18 @@ class _EcommerceHomeViewLayoutState
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             scrollDirection: Axis.horizontal,
             itemCount: shops.length,
-            itemBuilder:
-                (context, index) => Padding(
-                  padding: EdgeInsets.only(right: 10.w),
-                  child: ShopCardCircle(
-                    callback:
-                        () => context.nav.pushNamed(
-                          Routes.getShopViewRouteName(
-                            AppConstants.appServiceName,
-                          ),
-                          arguments: shops[index].id,
-                        ),
-                    shop: shops[index],
+            itemBuilder: (context, index) => Padding(
+              padding: EdgeInsets.only(right: 10.w),
+              child: ShopCardCircle(
+                callback: () => context.nav.pushNamed(
+                  Routes.getShopViewRouteName(
+                    AppConstants.appServiceName,
                   ),
+                  arguments: shops[index].id,
                 ),
+                shop: shops[index],
+              ),
+            ),
           ),
         ),
       ],
@@ -981,7 +939,15 @@ class _EcommerceHomeViewLayoutState
             context,
             S.of(context).popularProducts,
             Routes.getProductsViewRouteName(AppConstants.appServiceName),
-            arguments: [null, 'Popular', 'popular', null, null, subCategories],
+            arguments: [
+              null,
+              'Popular',
+              'popular',
+              null,
+              null,
+              subCategories,
+              'popular'
+            ],
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height / 2.22,
@@ -989,20 +955,64 @@ class _EcommerceHomeViewLayoutState
               padding: EdgeInsets.only(left: 16.w),
               scrollDirection: Axis.horizontal,
               itemCount: products.length,
-              itemBuilder:
-                  (context, index) =>
-                      products[index].quantity != 0
-                          ? PopularProductCard(
-                            product: products[index],
-                            onTap:
-                                () => context.nav.pushNamed(
-                                  Routes.getProductDetailsRouteName(
-                                    AppConstants.appServiceName,
-                                  ),
-                                  arguments: products[index].id,
-                                ),
-                          )
-                          : const SizedBox(),
+              itemBuilder: (context, index) => products[index].quantity != 0
+                  ? PopularProductCard(
+                      product: products[index],
+                      onTap: () => context.nav.pushNamed(
+                        Routes.getProductDetailsRouteName(
+                          AppConstants.appServiceName,
+                        ),
+                        arguments: products[index].id,
+                      ),
+                    )
+                  : const SizedBox(),
+            ),
+          ),
+          Gap(20.h),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLatestProductWidget(
+    BuildContext context,
+    List<product.Product> products,
+  ) {
+    return Container(
+      decoration: BoxDecoration(color: colors(context).accentColor),
+      child: Column(
+        children: [
+          _buildSectionHeader(
+            context,
+            S.of(context).latestProducts,
+            Routes.getProductsViewRouteName(AppConstants.appServiceName),
+            arguments: [
+              null,
+              'Cele Mai Noi Produse',
+              'Latest',
+              null,
+              null,
+              subCategories,
+              'latest'
+            ],
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 2.22,
+            child: ListView.builder(
+              padding: EdgeInsets.only(left: 16.w),
+              scrollDirection: Axis.horizontal,
+              itemCount: products.length,
+              itemBuilder: (context, index) => products[index].quantity != 0
+                  ? PopularProductCard(
+                      product: products[index],
+                      onTap: () => context.nav.pushNamed(
+                        Routes.getProductDetailsRouteName(
+                          AppConstants.appServiceName,
+                        ),
+                        arguments: products[index].id,
+                      ),
+                    )
+                  : const SizedBox(),
             ),
           ),
           Gap(20.h),
@@ -1021,17 +1031,16 @@ class _EcommerceHomeViewLayoutState
           child: PageView.builder(
             controller: pageController,
             itemCount: dashboardData.banners.length,
-            itemBuilder:
-                (context, index) => Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12.r),
-                    child: CachedNetworkImage(
-                      fit: BoxFit.cover,
-                      imageUrl: dashboardData.banners[index].thumbnail,
-                    ),
-                  ),
+            itemBuilder: (context, index) => Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10.w),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12.r),
+                child: CachedNetworkImage(
+                  fit: BoxFit.cover,
+                  imageUrl: dashboardData.banners[index].thumbnail,
                 ),
+              ),
+            ),
           ),
         ),
         Positioned(
@@ -1046,10 +1055,9 @@ class _EcommerceHomeViewLayoutState
                 duration: const Duration(milliseconds: 300),
                 margin: const EdgeInsets.symmetric(horizontal: 6),
                 decoration: BoxDecoration(
-                  color:
-                      ref.read(currentPageController.notifier).state == index
-                          ? colors(context).light
-                          : colors(context).accentColor!.withOpacity(0.5),
+                  color: ref.read(currentPageController.notifier).state == index
+                      ? colors(context).light
+                      : colors(context).accentColor!.withOpacity(0.5),
                   borderRadius: BorderRadius.circular(30.sp),
                 ),
                 height: 8.h,
@@ -1080,39 +1088,38 @@ class _EcommerceHomeViewLayoutState
               if (isHeaderVisible)
                 ref.read(hiveServiceProvider).userIsLoggedIn()
                     ? GestureDetector(
-                      onTap:
-                          () => showModalBottomSheet(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(16.r),
-                                topRight: Radius.circular(16.r),
-                              ),
+                        onTap: () => showModalBottomSheet(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(16.r),
+                              topRight: Radius.circular(16.r),
                             ),
-                            barrierColor: colors(
-                              context,
-                            ).accentColor!.withOpacity(0.8),
-                            context: context,
-                            builder: (_) => const AddressModalBottomSheet(),
                           ),
-                      child: _buildHeaderRow(context),
-                    )
+                          barrierColor: colors(
+                            context,
+                          ).accentColor!.withOpacity(0.8),
+                          context: context,
+                          builder: (_) => const AddressModalBottomSheet(),
+                        ),
+                        child: _buildHeaderRow(context),
+                      )
                     : const AppLogo(isAnimation: true, centerAlign: false),
               Gap(10.h),
               GestureDetector(
-                onTap:
-                    () => context.nav.pushNamed(
-                      Routes.getProductsViewRouteName(
-                        AppConstants.appServiceName,
-                      ),
-                      arguments: [
-                        null,
-                        'Toate Produsele',
-                        null,
-                        null,
-                        null,
-                        subCategories,
-                      ],
-                    ),
+                onTap: () => context.nav.pushNamed(
+                  Routes.getProductsViewRouteName(
+                    AppConstants.appServiceName,
+                  ),
+                  arguments: [
+                    null,
+                    'Toate Produsele',
+                    null,
+                    null,
+                    null,
+                    subCategories,
+                    'search',
+                  ],
+                ),
                 child: AbsorbPointer(
                   absorbing: true,
                   child: CustomSearchField(
@@ -1179,24 +1186,23 @@ class _EcommerceHomeViewLayoutState
     String argument,
   ) {
     return OutlinedButton(
-      onPressed:
-          () => context.nav.pushNamed(
-            Routes.getProductsViewRouteName(AppConstants.appServiceName),
-            arguments: [
-              null,
-              S.of(context).justForYou,
-              argument,
-              null,
-              null,
-              subCategories,
-            ],
-          ),
+      onPressed: () => context.nav.pushNamed(
+        Routes.getProductsViewRouteName(AppConstants.appServiceName),
+        arguments: [
+          null,
+          S.of(context).justForYou,
+          argument,
+          null,
+          null,
+          subCategories,
+          true
+        ],
+      ),
       style: OutlinedButton.styleFrom(
-        backgroundColor:
-            GlobalFunction.getBackgroundColor(context: context) !=
-                    colors(context).dark
-                ? EcommerceAppColor.blueChalk
-                : colors(context).accentColor,
+        backgroundColor: GlobalFunction.getBackgroundColor(context: context) !=
+                colors(context).dark
+            ? EcommerceAppColor.blueChalk
+            : colors(context).accentColor,
         padding: EdgeInsets.symmetric(horizontal: 10.w),
         side: BorderSide(color: EcommerceAppColor.primary, width: 1),
         minimumSize: Size(MediaQuery.of(context).size.width, 45.h),
@@ -1208,9 +1214,9 @@ class _EcommerceHomeViewLayoutState
           Text(
             S.of(context).viewMore,
             style: AppTextStyle(context).bodyTextSmall.copyWith(
-              color: colors(context).primaryColor,
-              fontWeight: FontWeight.w600,
-            ),
+                  color: colors(context).primaryColor,
+                  fontWeight: FontWeight.w600,
+                ),
           ),
           Gap(3.w),
           SvgPicture.asset(
@@ -1280,9 +1286,9 @@ class _EcommerceHomeViewLayoutState
                       _defaultAddress(context, addressData),
                       overflow: TextOverflow.ellipsis,
                       style: AppTextStyle(context).bodyText.copyWith(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                      ),
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                          ),
                     );
                   },
                 ),
@@ -1369,71 +1375,70 @@ class DealOfTheDayWidget extends ConsumerWidget {
 
     return runningSaleData != null
         ? Container(
-          margin: EdgeInsets.all(10.w),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12.r),
-            gradient: LinearGradient(
-              colors: [const Color(0xFFB822FF), EcommerceAppColor.primary],
+            margin: EdgeInsets.all(10.w),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12.r),
+              gradient: LinearGradient(
+                colors: [const Color(0xFFB822FF), EcommerceAppColor.primary],
+              ),
             ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      runningSaleData.name ?? "",
-                      style: AppTextStyle(
-                        context,
-                      ).subTitle.copyWith(color: EcommerceAppColor.white),
-                    ),
-                    Gap(10.h),
-                    Row(
-                      children: [
-                        Text(
-                          S.of(context).endingIn,
-                          style: AppTextStyle(context).bodyText.copyWith(
-                            fontSize: 16.sp,
-                            color: EcommerceAppColor.white,
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        runningSaleData.name ?? "",
+                        style: AppTextStyle(
+                          context,
+                        ).subTitle.copyWith(color: EcommerceAppColor.white),
+                      ),
+                      Gap(10.h),
+                      Row(
+                        children: [
+                          Text(
+                            S.of(context).endingIn,
+                            style: AppTextStyle(context).bodyText.copyWith(
+                                  fontSize: 16.sp,
+                                  color: EcommerceAppColor.white,
+                                ),
                           ),
-                        ),
-                        Gap(10.w),
-                        if (endDate != null)
-                          SlideCountdownSeparated(
-                            separatorStyle: AppTextStyle(
-                              context,
-                            ).bodyText.copyWith(color: FoodAppColor.white),
-                            style: AppTextStyle(context).title.copyWith(
-                              color: FoodAppColor.carrotOrange,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 14.sp,
+                          Gap(10.w),
+                          if (endDate != null)
+                            SlideCountdownSeparated(
+                              separatorStyle: AppTextStyle(
+                                context,
+                              ).bodyText.copyWith(color: FoodAppColor.white),
+                              style: AppTextStyle(context).title.copyWith(
+                                    color: FoodAppColor.carrotOrange,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 14.sp,
+                                  ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4.r),
+                                color: EcommerceAppColor.white,
+                              ),
+                              duration: endDate.isAfter(DateTime.now())
+                                  ? endDate.difference(DateTime.now())
+                                  : Duration.zero,
                             ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4.r),
-                              color: EcommerceAppColor.white,
-                            ),
-                            duration:
-                                endDate.isAfter(DateTime.now())
-                                    ? endDate.difference(DateTime.now())
-                                    : Duration.zero,
-                          ),
-                      ],
-                    ),
-                  ],
-                ),
-                _buildViewMoreButton(
-                  context,
-                  ref,
-                  runningSaleData.id,
-                  runningSaleData.name ?? "",
-                ),
-              ],
+                        ],
+                      ),
+                    ],
+                  ),
+                  _buildViewMoreButton(
+                    context,
+                    ref,
+                    runningSaleData.id,
+                    runningSaleData.name ?? "",
+                  ),
+                ],
+              ),
             ),
-          ),
-        )
+          )
         : SizedBox.shrink();
   }
 

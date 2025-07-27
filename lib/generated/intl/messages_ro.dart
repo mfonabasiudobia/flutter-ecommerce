@@ -195,6 +195,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "placeOrder": MessageLookupByLibrary.simpleMessage("Plasează comanda"),
         "popularProducts":
             MessageLookupByLibrary.simpleMessage("Produse populare"),
+        'latestProducts':
+            MessageLookupByLibrary.simpleMessage("Cele Mai Noi Produse"),
         "postalCode": MessageLookupByLibrary.simpleMessage("Cod poștal"),
         "priceHighToLow":
             MessageLookupByLibrary.simpleMessage("Preț: De la mare la mic"),
@@ -308,7 +310,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "pleaseAccept": MessageLookupByLibrary.simpleMessage(
             "Vă rugăm să acceptați termenii și condițiile!"),
         "article": MessageLookupByLibrary.simpleMessage("articole"),
-        "category": MessageLookupByLibrary.simpleMessage("Calitate"),
+        "category": MessageLookupByLibrary.simpleMessage("Categorii"),
         "phoneNumberAlreadyRegister": MessageLookupByLibrary.simpleMessage(
             "Numărul de telefon este deja utilizat. Vă rugăm să încercați un număr de telefon diferit."),
         "bankTransfer": MessageLookupByLibrary.simpleMessage("Transfer bancar"),

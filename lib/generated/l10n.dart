@@ -120,6 +120,15 @@ class S {
     );
   }
 
+  String get latestProducts {
+    return Intl.message(
+      'Latest Products',
+      name: 'latestProducts',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Just For You`
   String get justForYou {
     return Intl.message(
@@ -2198,28 +2207,22 @@ class S {
   }
 
   String get tradeRegisterNumber {
-
     return Intl.message(
       'Trade Register Number',
       name: 'tradeRegisterNumber',
       desc: 'Trade Register Number',
       args: [],
     );
-
   }
 
   String get vatPayer {
-
     return Intl.message(
       'Vat Payer',
       name: 'vatPayer',
       desc: 'Vat Payer',
       args: [],
     );
-
   }
-
-
 
   String get bankName {
     return Intl.message(
@@ -2265,7 +2268,8 @@ class S {
       args: [],
     );
   }
-   String get outOfStock {
+
+  String get outOfStock {
     return Intl.message(
       'Out of Stock',
       name: 'outOfStock',
@@ -2273,8 +2277,6 @@ class S {
       args: [],
     );
   }
-
-
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

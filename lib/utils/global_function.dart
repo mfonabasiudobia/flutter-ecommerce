@@ -81,17 +81,17 @@ class GlobalFunction {
     }
     return null;
   }
-    static String? emailValidator({
+
+  static String? emailValidator({
     required String value,
     required String hintText,
     required BuildContext context,
   }) {
     if (value.isEmpty) {
       return errorText(fieldName: hintText, context: context);
-    } 
+    }
     return null;
   }
-
 
   static String? passwordValidator({
     required String value,

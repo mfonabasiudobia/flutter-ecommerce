@@ -33,7 +33,10 @@ import 'package:ready_ecommerce/views/eCommerce/products/components/similar_prod
 
 class EcommerceProductDetailsLayout extends ConsumerStatefulWidget {
   final int productId;
-  const EcommerceProductDetailsLayout({super.key, required this.productId});
+  const EcommerceProductDetailsLayout({
+    super.key,
+    required this.productId,
+  });
 
   @override
   ConsumerState<EcommerceProductDetailsLayout> createState() =>
@@ -58,87 +61,77 @@ class _EcommerceProductDetailsLayoutState
           bottomNavigationBar: ref
               .watch(productDetailsControllerProvider(widget.productId))
               .whenOrNull(
-                data:
-                    (productDetails) => _buildBottomNavigationBar(
-                      context: context,
-                      productDetails: productDetails,
-                    ),
+                data: (productDetails) => _buildBottomNavigationBar(
+                    context: context, productDetails: productDetails),
               ),
           body: Stack(
             children: [
               ref
                   .watch(productDetailsControllerProvider(widget.productId))
                   .when(
-                    data:
-                        (productDetails) => SingleChildScrollView(
-                          child: AnimationLimiter(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: AnimationConfiguration.toStaggeredList(
-                                duration: const Duration(milliseconds: 500),
-                                childAnimationBuilder:
-                                    (widget) => SlideAnimation(
-                                      verticalOffset: 50.h,
-                                      child: FadeInAnimation(child: widget),
-                                    ),
-                                children: [
-                                  Gap(10.h),
-                                  ProductImagePageView(
-                                    productDetails: productDetails,
-                                  ),
-                                  Gap(14.h),
-                                  ProductDescription(
-                                    productDetails: productDetails,
-                                  ),
-                                  Gap(0.h),
-                                  Visibility(
-                                    visible:
-                                        productDetails
-                                            .product
-                                            .colors
-                                            .isNotEmpty,
-                                    child: ProductColorPicker(
-                                      productDetails: productDetails,
-                                    ),
-                                  ),
-
-                                  Visibility(
-                                    visible:
-                                        ref
-                                            .read(
-                                              masterControllerProvider.notifier,
-                                            )
-                                            .materModel
-                                            .data
-                                            .isMultiVendor,
-                                    child: Gap(14.h),
-                                  ),
-                                  // Visibility(
-                                  //     visible: ref
-                                  //         .read(masterControllerProvider.notifier)
-                                  //         .materModel
-                                  //         .data
-                                  //         .isMultiVendor,
-                                  //     child: ShopInformation(
-                                  //         productDetails: productDetails)),
-                                  ProductDetailsAndReview(
-                                    productDetails: productDetails,
-                                  ),
-                                  Gap(14.h),
-                                  SimilarProductsWidget(
-                                    productDetails: productDetails,
-                                  ),
-                                ],
+                    data: (productDetails) => SingleChildScrollView(
+                      child: AnimationLimiter(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: AnimationConfiguration.toStaggeredList(
+                            duration: const Duration(milliseconds: 500),
+                            childAnimationBuilder: (widget) => SlideAnimation(
+                                verticalOffset: 50.h,
+                                child: FadeInAnimation(
+                                  child: widget,
+                                )),
+                            children: [
+                              Gap(10.h),
+                              ProductImagePageView(
+                                  productDetails: productDetails),
+                              Gap(14.h),
+                              ProductDescription(
+                                  productDetails: productDetails),
+                              Gap(0.h),
+                              Visibility(
+                                visible:
+                                    productDetails.product.colors.isNotEmpty,
+                                child: ProductColorPicker(
+                                    productDetails: productDetails),
                               ),
-                            ),
+
+                              Visibility(
+                                visible: ref
+                                    .read(masterControllerProvider.notifier)
+                                    .materModel
+                                    .data
+                                    .isMultiVendor,
+                                child: Gap(14.h),
+                              ),
+                              // Visibility(
+                              //     visible: ref
+                              //         .read(masterControllerProvider.notifier)
+                              //         .materModel
+                              //         .data
+                              //         .isMultiVendor,
+                              //     child: ShopInformation(
+                              //         productDetails: productDetails)),
+                              ProductDetailsAndReview(
+                                productDetails: productDetails,
+                              ),
+                              Gap(14.h),
+                              SimilarProductsWidget(
+                                productDetails: productDetails,
+                              ),
+                            ],
                           ),
                         ),
-                    error:
-                        ((error, stackTrace) =>
-                            Center(child: Text(error.toString()))),
-                    loading:
-                        () => const Center(child: CircularProgressIndicator()),
+                      ),
+                    ),
+                    error: ((error, stackTrace) => Center(
+                          child: Text(
+                            error.toString(),
+                          ),
+                        )),
+                    loading: () => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
                   ),
               SizedBox(
                 width: double.infinity,
@@ -150,11 +143,10 @@ class _EcommerceProductDetailsLayoutState
                       SizedBox(
                         child: IconButton(
                           style: IconButton.styleFrom(
-                            shape: const CircleBorder(),
-                            backgroundColor: colors(
-                              context,
-                            ).accentColor?.withOpacity(0.5),
-                          ),
+                              shape: const CircleBorder(),
+                              backgroundColor: colors(context)
+                                  .accentColor
+                                  ?.withOpacity(0.5)),
                           onPressed: () {
                             ref
                                 .read(shopControllerProvider.notifier)
@@ -172,7 +164,7 @@ class _EcommerceProductDetailsLayoutState
                     ],
                   ),
                 ),
-              ),
+              )
             ],
           ),
         ),
@@ -198,10 +190,8 @@ class _EcommerceProductDetailsLayoutState
     );
   }
 
-  _buildBottomNavigationBar({
-    required BuildContext context,
-    required ProductDetails productDetails,
-  }) {
+  _buildBottomNavigationBar(
+      {required BuildContext context, required ProductDetails productDetails}) {
     return ValueListenableBuilder<Box<HiveCartModel>>(
       valueListenable:
           Hive.box<HiveCartModel>(AppConstants.cartModelBox).listenable(),
@@ -233,74 +223,74 @@ class _EcommerceProductDetailsLayoutState
                 Flexible(
                   flex: 1,
                   child: CustomButton(
-                    buttonText: S.of(context).buyNow,
-                    onPressed: () => _onTapCart(productDetails, true),
+                      buttonText: S.of(context).buyNow,
+                      onPressed: () => _onTapCart(productDetails, true)
 
-                    //  {
-                    //   final AddToCartModel addToCartModel = AddToCartModel(
-                    //     productId: productDetails.product.id,
-                    //     quantity: 1,
-                    //     size: productDetails.product.productSizeList.isNotEmpty
-                    //         ? productDetails
-                    //             .product
-                    //             .productSizeList[
-                    //                 ref.read(selectedProductSizeIndex)]
-                    //             .id
-                    //         : null,
-                    //     color: productDetails.product.colors.isNotEmpty
-                    //         ? productDetails.product
-                    //             .colors[ref.read(selectedProductColorIndex)!].id
-                    //         : null,
-                    //     isBuyNow: 1,
-                    //   );
+                      //  {
+                      //   final AddToCartModel addToCartModel = AddToCartModel(
+                      //     productId: productDetails.product.id,
+                      //     quantity: 1,
+                      //     size: productDetails.product.productSizeList.isNotEmpty
+                      //         ? productDetails
+                      //             .product
+                      //             .productSizeList[
+                      //                 ref.read(selectedProductSizeIndex)]
+                      //             .id
+                      //         : null,
+                      //     color: productDetails.product.colors.isNotEmpty
+                      //         ? productDetails.product
+                      //             .colors[ref.read(selectedProductColorIndex)!].id
+                      //         : null,
+                      //     isBuyNow: 1,
+                      //   );
 
-                    //   final OrderNowCartModel orderNowCartModel =
-                    //       OrderNowCartModel(
-                    //     shopId: productDetails.product.shop.id,
-                    //     shopName: productDetails.product.shop.name,
-                    //     productId: productDetails.product.id,
-                    //     price: productDetails.product.price +
-                    //         ref.watch(selectedColorPriceProvider) +
-                    //         ref.watch(selectedSizePriceProvider),
-                    //     discountPrice: productDetails.product.discountPrice +
-                    //         ref.watch(selectedColorPriceProvider) +
-                    //         ref.watch(selectedSizePriceProvider),
-                    //     productImage:
-                    //         productDetails.product.thumbnails.first.thumbnail,
-                    //     productName: productDetails.product.name,
-                    //     size: productDetails.product.productSizeList.isNotEmpty
-                    //         ? productDetails
-                    //             .product
-                    //             .productSizeList[
-                    //                 ref.read(selectedProductSizeIndex)]
-                    //             .name
-                    //         : null,
-                    //     color: productDetails.product.colors.isNotEmpty
-                    //         ? productDetails
-                    //             .product
-                    //             .colors[ref.read(selectedProductColorIndex)!]
-                    //             .name
-                    //         : null,
-                    //     isBuyNow: 1,
-                    //   );
-                    //   if (!ref.read(hiveServiceProvider).userIsLoggedIn()) {
-                    //     _showTheWarningDialog();
-                    //   } else {
-                    //     ref
-                    //         .read(cartController.notifier)
-                    //         .addToCart(addToCartModel: addToCartModel)
-                    //         .then(
-                    //       (value) {
-                    //         context.nav.pushNamed(
-                    //           Routes.getOrderNowViewRouteName(
-                    //               AppConstants.appServiceName),
-                    //           arguments: orderNowCartModel,
-                    //         );
-                    //       },
-                    //     );
-                    //   }
-                    // },
-                  ),
+                      //   final OrderNowCartModel orderNowCartModel =
+                      //       OrderNowCartModel(
+                      //     shopId: productDetails.product.shop.id,
+                      //     shopName: productDetails.product.shop.name,
+                      //     productId: productDetails.product.id,
+                      //     price: productDetails.product.price +
+                      //         ref.watch(selectedColorPriceProvider) +
+                      //         ref.watch(selectedSizePriceProvider),
+                      //     discountPrice: productDetails.product.discountPrice +
+                      //         ref.watch(selectedColorPriceProvider) +
+                      //         ref.watch(selectedSizePriceProvider),
+                      //     productImage:
+                      //         productDetails.product.thumbnails.first.thumbnail,
+                      //     productName: productDetails.product.name,
+                      //     size: productDetails.product.productSizeList.isNotEmpty
+                      //         ? productDetails
+                      //             .product
+                      //             .productSizeList[
+                      //                 ref.read(selectedProductSizeIndex)]
+                      //             .name
+                      //         : null,
+                      //     color: productDetails.product.colors.isNotEmpty
+                      //         ? productDetails
+                      //             .product
+                      //             .colors[ref.read(selectedProductColorIndex)!]
+                      //             .name
+                      //         : null,
+                      //     isBuyNow: 1,
+                      //   );
+                      //   if (!ref.read(hiveServiceProvider).userIsLoggedIn()) {
+                      //     _showTheWarningDialog();
+                      //   } else {
+                      //     ref
+                      //         .read(cartController.notifier)
+                      //         .addToCart(addToCartModel: addToCartModel)
+                      //         .then(
+                      //       (value) {
+                      //         context.nav.pushNamed(
+                      //           Routes.getOrderNowViewRouteName(
+                      //               AppConstants.appServiceName),
+                      //           arguments: orderNowCartModel,
+                      //         );
+                      //       },
+                      //     );
+                      //   }
+                      // },
+                      ),
                 ),
               ],
             ),
@@ -314,20 +304,14 @@ class _EcommerceProductDetailsLayoutState
     final AddToCartModel addToCartModel = AddToCartModel(
       productId: productDetails.product.id,
       quantity: 1,
-      size:
-          productDetails.product.productSizeList.isNotEmpty
-              ? productDetails
-                  .product
-                  .productSizeList[ref.read(selectedProductSizeIndex)]
-                  .id
-              : null,
-      color:
-          productDetails.product.colors.isNotEmpty
-              ? productDetails
-                  .product
-                  .colors[ref.read(selectedProductColorIndex)!]
-                  .id
-              : null,
+      size: productDetails.product.productSizeList.isNotEmpty
+          ? productDetails
+              .product.productSizeList[ref.read(selectedProductSizeIndex)].id
+          : null,
+      color: productDetails.product.colors.isNotEmpty
+          ? productDetails
+              .product.colors[ref.read(selectedProductColorIndex)!].id
+          : null,
     );
     if (!ref.read(hiveServiceProvider).userIsLoggedIn()) {
       _showTheWarningDialog();
@@ -338,29 +322,29 @@ class _EcommerceProductDetailsLayoutState
 
       if (isBuyNow) {
         context.nav.pushNamed(
-          Routes.getMyCartViewRouteName(AppConstants.appServiceName),
-          arguments: [false, isBuyNow],
-        );
+            Routes.getMyCartViewRouteName(
+              AppConstants.appServiceName,
+            ),
+            arguments: [false, isBuyNow]);
       }
     }
   }
 
   _showTheWarningDialog() {
     showDialog(
-      barrierColor: colors(
-        GlobalFunction.navigatorKey.currentContext!,
-      ).accentColor!.withOpacity(0.8),
+      barrierColor: colors(GlobalFunction.navigatorKey.currentContext!)
+          .accentColor!
+          .withOpacity(0.8),
       context: GlobalFunction.navigatorKey.currentContext!,
-      builder:
-          (_) => ConfirmationDialog(
-            title: S.of(context).youAreNotLoggedIn,
-            confirmButtonText:
-                S.of(GlobalFunction.navigatorKey.currentContext!).login,
-            onPressed: () {
-              GlobalFunction.navigatorKey.currentContext!.nav
-                  .pushNamedAndRemoveUntil(Routes.login, (route) => false);
-            },
-          ),
+      builder: (_) => ConfirmationDialog(
+        title: S.of(context).youAreNotLoggedIn,
+        confirmButtonText:
+            S.of(GlobalFunction.navigatorKey.currentContext!).login,
+        onPressed: () {
+          GlobalFunction.navigatorKey.currentContext!.nav
+              .pushNamedAndRemoveUntil(Routes.login, (route) => false);
+        },
+      ),
     );
   }
 }
@@ -385,7 +369,12 @@ class LoadingWrapperWidget extends StatelessWidget {
             child: ModalBarrier(dismissible: false, color: Colors.black),
           ),
         if (isLoading)
-          const Center(child: AppLogo(withAppName: false, isAnimation: true)),
+          const Center(
+            child: AppLogo(
+              withAppName: false,
+              isAnimation: true,
+            ),
+          ),
       ],
     );
   }

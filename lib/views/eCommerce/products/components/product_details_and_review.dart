@@ -7,6 +7,7 @@ import 'package:gap/gap.dart';
 import 'package:ready_ecommerce/config/app_color.dart';
 import 'package:ready_ecommerce/config/app_text_style.dart';
 import 'package:ready_ecommerce/config/theme.dart';
+import 'package:ready_ecommerce/controllers/eCommerce/product/product_controller.dart';
 import 'package:ready_ecommerce/controllers/eCommerce/shop/shop_controller.dart';
 import 'package:ready_ecommerce/controllers/misc/misc_controller.dart';
 import 'package:ready_ecommerce/generated/l10n.dart';
@@ -330,96 +331,202 @@ class ProductDetailsAndReviewState
   }
 
   Widget _buildShippingInfoWidget() {
-    dynamic selectedSize = 1;
-    if (widget.productDetails.product.productSizeList.isNotEmpty) {
-      selectedSize = int.parse(widget.productDetails.product
-          .productSizeList[ref.read(selectedProductSizeIndex)].name);
-    }
+    return Consumer(
+      builder: (context, ref, _) {
+        dynamic selectedSize = 1;
+        if (widget.productDetails.product.productSizeList.isNotEmpty) {
+          selectedSize = int.parse(widget.productDetails.product
+              .productSizeList[ref.watch(selectedProductSizeIndex)].name);
+        }
 
-    debugPrint("selectedSize  $selectedSize");
+        dynamic selectedSize3 = ref.watch(selectedSizePriceProvider);
 
-    final deliveryName = widget.productDetails.deliveryWeights.firstWhere(
-      (item) =>
-          selectedSize >= item['min_weight'] &&
-          selectedSize <= item['max_weight'],
-      orElse: () => null,
-    );
+        debugPrint("selectedSize  $selectedSize");
 
-    debugPrint("deliveryName  $deliveryName");
+        final deliveryName = widget.productDetails.deliveryWeights.firstWhere(
+          (item) =>
+              selectedSize >= item['min_weight'] &&
+              selectedSize <= item['max_weight'],
+          orElse: () => null,
+        );
 
-    String formatWeight(num weight) =>
-        weight % 1 == 0 ? weight.toInt().toString() : weight.toString();
+        debugPrint("deliveryName  $deliveryName");
 
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 500),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w),
-        child: Column(
-          children: [
-            commonText(
-              title: S.of(context).estimatedTime,
-              data: widget.productDetails.product.shop.estimatedDeliveryTime,
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            Container(
-              height: 45,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                color: colors(context).accentColor,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      deliveryName != null
-                          ? "${formatWeight(deliveryName['min_weight'])} - ${formatWeight(deliveryName['max_weight'])} ${widget.productDetails.weightUnit}"
-                          : '',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                      ),
-                    ),
-                    Text(
-                      GlobalFunction.price(
-                        currency: ref
-                            .read(masterControllerProvider.notifier)
-                            .materModel
-                            .data
-                            .currency
-                            .symbol,
-                        position: ref
-                            .read(masterControllerProvider.notifier)
-                            .materModel
-                            .data
-                            .currency
-                            .position,
-                        price: formatWeight(deliveryName['price']).toString(),
-                      ),
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
+        String formatWeight(num weight) =>
+            weight % 1 == 0 ? weight.toInt().toString() : weight.toString();
+
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 500),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            child: Column(
+              children: [
+                commonText(
+                  title: S.of(context).estimatedTime,
+                  data:
+                      widget.productDetails.product.shop.estimatedDeliveryTime,
                 ),
-              ),
+                const SizedBox(height: 15),
+                Container(
+                  height: 45,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    color: colors(context).accentColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          deliveryName != null
+                              ? "${formatWeight(deliveryName['min_weight'])} - ${formatWeight(deliveryName['max_weight'])} ${widget.productDetails.weightUnit}"
+                              : '',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
+                        ),
+                        Text(
+                          deliveryName != null
+                              ? GlobalFunction.price(
+                                  currency: ref
+                                      .read(masterControllerProvider.notifier)
+                                      .materModel
+                                      .data
+                                      .currency
+                                      .symbol,
+                                  position: ref
+                                      .read(masterControllerProvider.notifier)
+                                      .materModel
+                                      .data
+                                      .currency
+                                      .position,
+                                  price: formatWeight(deliveryName['price'])
+                                      .toString(),
+                                )
+                              : '',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 15),
+              ],
             ),
-            const SizedBox(
-              height: 15,
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
+
+  // Widget _buildShippingInfoWidget() {
+  //   dynamic selectedSize = 1;
+  //   if (widget.productDetails.product.productSizeList.isNotEmpty) {
+  //     selectedSize = int.parse(widget.productDetails.product
+  //         .productSizeList[ref.read(selectedProductSizeIndex)].name);
+  //   }
+
+  //   //  ref.read(selectedProductSizeIndex.notifier).state =
+  //   //                             index;
+  //   //                         ref.read(selectedSizePriceProvider.notifier).state =
+  //   //                             widget.productDetails.product
+  //   //                                 .productSizeList[index].price;
+
+  //   dynamic selectedSize3 = ref.watch(selectedSizePriceProvider);
+
+  //   debugPrint("selectedSize  $selectedSize");
+
+  //   final deliveryName = widget.productDetails.deliveryWeights.firstWhere(
+  //     (item) =>
+  //         selectedSize >= item['min_weight'] &&
+  //         selectedSize <= item['max_weight'],
+  //     orElse: () => null,
+  //   );
+
+  //   debugPrint("deliveryName  $deliveryName");
+
+  //   String formatWeight(num weight) =>
+  //       weight % 1 == 0 ? weight.toInt().toString() : weight.toString();
+
+  //   return AnimatedContainer(
+  //     duration: const Duration(milliseconds: 500),
+  //     child: Padding(
+  //       padding: EdgeInsets.symmetric(horizontal: 20.w),
+  //       child: Column(
+  //         children: [
+  //           commonText(
+  //             title: S.of(context).estimatedTime,
+  //             data: widget.productDetails.product.shop.estimatedDeliveryTime,
+  //           ),
+  //           const SizedBox(
+  //             height: 15,
+  //           ),
+  //           Container(
+  //             height: 45,
+  //             width: MediaQuery.of(context).size.width,
+  //             decoration: BoxDecoration(
+  //               color: colors(context).accentColor,
+  //               borderRadius: BorderRadius.circular(10),
+  //             ),
+  //             child: Padding(
+  //               padding: const EdgeInsets.symmetric(horizontal: 15),
+  //               child: Row(
+  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                 crossAxisAlignment: CrossAxisAlignment.center,
+  //                 children: [
+  //                   Text(
+  //                     deliveryName != null
+  //                         ? "${formatWeight(deliveryName['min_weight'])} - ${formatWeight(deliveryName['max_weight'])} ${widget.productDetails.weightUnit}"
+  //                         : '',
+  //                     style: TextStyle(
+  //                       fontSize: 14,
+  //                       fontWeight: FontWeight.w600,
+  //                       color: Colors.black,
+  //                     ),
+  //                   ),
+  //                   Text(
+  //                     GlobalFunction.price(
+  //                       currency: ref
+  //                           .read(masterControllerProvider.notifier)
+  //                           .materModel
+  //                           .data
+  //                           .currency
+  //                           .symbol,
+  //                       position: ref
+  //                           .read(masterControllerProvider.notifier)
+  //                           .materModel
+  //                           .data
+  //                           .currency
+  //                           .position,
+  //                       price: formatWeight(deliveryName['price']).toString(),
+  //                     ),
+  //                     style: TextStyle(
+  //                       fontSize: 14,
+  //                       fontWeight: FontWeight.w600,
+  //                       color: Colors.black,
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //           ),
+  //           const SizedBox(
+  //             height: 15,
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget _buildShopInfoWidget() {
     return AnimatedContainer(

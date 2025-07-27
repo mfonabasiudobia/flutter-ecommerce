@@ -83,7 +83,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               const Padding(
                 padding: EdgeInsets.only(top: 10),
                 child: Text(
-                  'Back',
+                  'Înapoi',
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.white,

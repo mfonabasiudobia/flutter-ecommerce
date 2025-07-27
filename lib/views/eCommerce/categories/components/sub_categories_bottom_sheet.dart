@@ -64,6 +64,11 @@ class SubCategoriesBottomSheet extends ConsumerWidget {
               ),
             ),
             SizedBox(height: 16.h),
+            _buildGadgetButton(
+              subCategory: SubCategory(
+                  id: 0, name: 'Toate', thumbnail: ''), // Customize as needed
+              context: context,
+            ),
             ListView.builder(
               itemBuilder: (context, index) {
                 final SubCategory subCategory = category.subCategories[index];
@@ -89,20 +94,21 @@ class SubCategoriesBottomSheet extends ConsumerWidget {
     bool isDark =
         Theme.of(context!).scaffoldBackgroundColor == EcommerceAppColor.black;
     return GestureDetector(
-      onTap: () =>
-          GlobalFunction.navigatorKey.currentContext!.nav.popAndPushNamed(
-        Routes.getProductsViewRouteName(
-          AppConstants.appServiceName,
-        ),
-        arguments: [
-          category.id,
-          category.name,
-          null,
-          subCategory.id,
-          shopName,
-          category.subCategories
-        ],
-      ),
+      onTap: () => {
+        GlobalFunction.navigatorKey.currentContext!.nav.popAndPushNamed(
+          Routes.getProductsViewRouteName(
+            AppConstants.appServiceName,
+          ),
+          arguments: [
+            category.id,
+            category.name,
+            null,
+            subCategory.id,
+            shopName,
+            category.subCategories
+          ],
+        )
+      },
       // icon: CachedNetworkImage(
       //   imageUrl: subCategory.thumbnail,
       //   width: 24.w,
