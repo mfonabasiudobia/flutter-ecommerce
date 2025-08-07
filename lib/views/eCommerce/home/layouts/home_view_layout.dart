@@ -116,7 +116,9 @@ class _EcommerceHomeViewLayoutState
             _buildHeaderWidget(context),
             Flexible(
               flex: 5,
-              child: ref.watch(dashboardControllerProvider).when(
+              child: ref
+                  .watch(dashboardControllerProvider)
+                  .when(
                     data: (dashboardData) => RefreshIndicator(
                       onRefresh: () async {
                         ref.refresh(dashboardControllerProvider).value;
@@ -162,13 +164,15 @@ class _EcommerceHomeViewLayoutState
                                           context,
                                         ).size.width,
                                         child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(12.r),
+                                          borderRadius: BorderRadius.circular(
+                                            12.r,
+                                          ),
                                           child: CachedNetworkImage(
                                             width: double.infinity,
                                             fit: BoxFit.fill,
                                             imageUrl: dashboardData
-                                                .ads[index].thumbnail,
+                                                .ads[index]
+                                                .thumbnail,
                                           ),
                                         ),
                                       ),
@@ -186,9 +190,7 @@ class _EcommerceHomeViewLayoutState
                                     borderRadius: BorderRadius.circular(15),
                                     child: Container(
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(
-                                          15,
-                                        ),
+                                        borderRadius: BorderRadius.circular(15),
                                       ),
                                       child: Column(
                                         children: [
@@ -196,7 +198,8 @@ class _EcommerceHomeViewLayoutState
                                             width: MediaQuery.of(
                                               context,
                                             ).size.width,
-                                            height: MediaQuery.of(
+                                            height:
+                                                MediaQuery.of(
                                                   context,
                                                 ).size.height *
                                                 .2,
@@ -235,9 +238,9 @@ class _EcommerceHomeViewLayoutState
                                               children: [
                                                 Text(
                                                   S.of(context).category,
-                                                  style: AppTextStyle(
-                                                    context,
-                                                  ).bodyText.copyWith(
+                                                  style: AppTextStyle(context)
+                                                      .bodyText
+                                                      .copyWith(
                                                         fontSize: 20,
                                                         color: Colors.black,
                                                         fontWeight:
@@ -254,19 +257,19 @@ class _EcommerceHomeViewLayoutState
                                                     ),
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                      15,
-                                                    ),
+                                                          15,
+                                                        ),
                                                   ),
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                    horizontal: 10,
-                                                    vertical: 4,
-                                                  ),
+                                                  padding:
+                                                      const EdgeInsets.symmetric(
+                                                        horizontal: 10,
+                                                        vertical: 4,
+                                                      ),
                                                   child: Text(
                                                     "${(calculateCount(dashboardData.qualities))} ${S.of(context).article}",
-                                                    style: AppTextStyle(
-                                                      context,
-                                                    ).bodyText.copyWith(
+                                                    style: AppTextStyle(context)
+                                                        .bodyText
+                                                        .copyWith(
                                                           fontSize: 12,
                                                           color: Color.fromRGBO(
                                                             105,
@@ -292,38 +295,34 @@ class _EcommerceHomeViewLayoutState
                                               shrinkWrap: true,
                                               gridDelegate:
                                                   SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossAxisCount: 2,
-                                                crossAxisSpacing: 16.w,
-                                                mainAxisSpacing: 16.h,
-                                                childAspectRatio: 3,
-                                              ),
+                                                    crossAxisCount: 2,
+                                                    crossAxisSpacing: 16.w,
+                                                    mainAxisSpacing: 16.h,
+                                                    childAspectRatio: 3,
+                                                  ),
                                               itemCount: dashboardData
-                                                  .qualities.length,
-                                              itemBuilder: (
-                                                context,
-                                                index,
-                                              ) {
+                                                  .qualities
+                                                  .length,
+                                              itemBuilder: (context, index) {
                                                 return GestureDetector(
                                                   onTap: () {
                                                     Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
-                                                        builder: (
-                                                          context,
-                                                        ) =>
+                                                        builder: (context) =>
                                                             EcommerceProductsLayout(
-                                                          categoryId: null,
-                                                          categoryName:
-                                                              'Quality',
-                                                          sortType: 'quality',
-                                                          subCategories:
-                                                              subCategories,
-                                                          qualityID:
-                                                              dashboardData
-                                                                  .qualities[
-                                                                      index]
-                                                                  .id,
-                                                        ),
+                                                              categoryId: null,
+                                                              categoryName:
+                                                                  'Quality',
+                                                              sortType:
+                                                                  'quality',
+                                                              subCategories:
+                                                                  subCategories,
+                                                              qualityID:
+                                                                  dashboardData
+                                                                      .qualities[index]
+                                                                      .id,
+                                                            ),
                                                       ),
                                                     );
                                                     // context.nav.pushNamed(
@@ -350,9 +349,11 @@ class _EcommerceHomeViewLayoutState
                                                   },
                                                   child: commonCategoryBox(
                                                     count: dashboardData
-                                                        .qualities[index].count,
+                                                        .qualities[index]
+                                                        .count,
                                                     name: dashboardData
-                                                        .qualities[index].title,
+                                                        .qualities[index]
+                                                        .title,
                                                   ),
                                                 );
                                               },
@@ -374,9 +375,7 @@ class _EcommerceHomeViewLayoutState
                                     borderRadius: BorderRadius.circular(15),
                                     child: Container(
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(
-                                          15,
-                                        ),
+                                        borderRadius: BorderRadius.circular(15),
                                       ),
                                       child: Column(
                                         children: [
@@ -384,7 +383,8 @@ class _EcommerceHomeViewLayoutState
                                             width: MediaQuery.of(
                                               context,
                                             ).size.width,
-                                            height: MediaQuery.of(
+                                            height:
+                                                MediaQuery.of(
                                                   context,
                                                 ).size.height *
                                                 .2,
@@ -423,9 +423,9 @@ class _EcommerceHomeViewLayoutState
                                               children: [
                                                 Text(
                                                   S.of(context).season,
-                                                  style: AppTextStyle(
-                                                    context,
-                                                  ).bodyText.copyWith(
+                                                  style: AppTextStyle(context)
+                                                      .bodyText
+                                                      .copyWith(
                                                         fontSize: 20,
                                                         color: Colors.black,
                                                         fontWeight:
@@ -442,19 +442,19 @@ class _EcommerceHomeViewLayoutState
                                                     ),
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                      15,
-                                                    ),
+                                                          15,
+                                                        ),
                                                   ),
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                    horizontal: 10,
-                                                    vertical: 4,
-                                                  ),
+                                                  padding:
+                                                      const EdgeInsets.symmetric(
+                                                        horizontal: 10,
+                                                        vertical: 4,
+                                                      ),
                                                   child: Text(
                                                     "${(calculateCount(dashboardData.season))} ${S.of(context).article}",
-                                                    style: AppTextStyle(
-                                                      context,
-                                                    ).bodyText.copyWith(
+                                                    style: AppTextStyle(context)
+                                                        .bodyText
+                                                        .copyWith(
                                                           fontSize: 12,
                                                           color: Color.fromRGBO(
                                                             221,
@@ -480,45 +480,43 @@ class _EcommerceHomeViewLayoutState
                                               shrinkWrap: true,
                                               gridDelegate:
                                                   SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossAxisCount: 2,
-                                                crossAxisSpacing: 16.w,
-                                                mainAxisSpacing: 16.h,
-                                                childAspectRatio: 3,
-                                              ),
+                                                    crossAxisCount: 2,
+                                                    crossAxisSpacing: 16.w,
+                                                    mainAxisSpacing: 16.h,
+                                                    childAspectRatio: 3,
+                                                  ),
                                               itemCount:
                                                   dashboardData.season.length,
-                                              itemBuilder: (
-                                                context,
-                                                index,
-                                              ) {
+                                              itemBuilder: (context, index) {
                                                 return GestureDetector(
                                                   onTap: () {
                                                     Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
-                                                        builder: (
-                                                          context,
-                                                        ) =>
+                                                        builder: (context) =>
                                                             EcommerceProductsLayout(
-                                                          categoryId: null,
-                                                          categoryName:
-                                                              'Season',
-                                                          sortType: 'season',
-                                                          subCategories:
-                                                              subCategories,
-                                                          seasonID:
-                                                              dashboardData
-                                                                  .season[index]
-                                                                  .id,
-                                                        ),
+                                                              categoryId: null,
+                                                              categoryName:
+                                                                  'Season',
+                                                              sortType:
+                                                                  'season',
+                                                              subCategories:
+                                                                  subCategories,
+                                                              seasonID:
+                                                                  dashboardData
+                                                                      .season[index]
+                                                                      .id,
+                                                            ),
                                                       ),
                                                     );
                                                   },
                                                   child: commonCategoryBox(
                                                     count: dashboardData
-                                                        .season[index].count,
+                                                        .season[index]
+                                                        .count,
                                                     name: dashboardData
-                                                        .season[index].title,
+                                                        .season[index]
+                                                        .title,
                                                   ),
                                                 );
                                               },
@@ -571,9 +569,8 @@ class _EcommerceHomeViewLayoutState
                                         child: Text(
                                           "SERVICII PENTRU CLIENTI",
                                           overflow: TextOverflow.ellipsis,
-                                          style: AppTextStyle(
-                                            context,
-                                          ).bodyText.copyWith(
+                                          style: AppTextStyle(context).bodyText
+                                              .copyWith(
                                                 fontSize: 15.sp,
                                                 fontWeight: FontWeight.w600,
                                               ),
@@ -584,9 +581,8 @@ class _EcommerceHomeViewLayoutState
                                         child: Text(
                                           "L-V 09:00-18:00",
                                           overflow: TextOverflow.ellipsis,
-                                          style: AppTextStyle(
-                                            context,
-                                          ).bodyText.copyWith(
+                                          style: AppTextStyle(context).bodyText
+                                              .copyWith(
                                                 fontSize: 12.sp,
                                                 fontWeight: FontWeight.w300,
                                               ),
@@ -610,9 +606,9 @@ class _EcommerceHomeViewLayoutState
                                               Text(
                                                 "+40 755 511 123 ",
                                                 overflow: TextOverflow.ellipsis,
-                                                style: AppTextStyle(
-                                                  context,
-                                                ).bodyText.copyWith(
+                                                style: AppTextStyle(context)
+                                                    .bodyText
+                                                    .copyWith(
                                                       fontSize: 12.sp,
                                                       fontWeight:
                                                           FontWeight.w400,
@@ -634,9 +630,9 @@ class _EcommerceHomeViewLayoutState
                                               Text(
                                                 "suport@secondhub.ro",
                                                 overflow: TextOverflow.ellipsis,
-                                                style: AppTextStyle(
-                                                  context,
-                                                ).bodyText.copyWith(
+                                                style: AppTextStyle(context)
+                                                    .bodyText
+                                                    .copyWith(
                                                       fontSize: 12.sp,
                                                       fontWeight:
                                                           FontWeight.w400,
@@ -651,9 +647,8 @@ class _EcommerceHomeViewLayoutState
                                         child: Text(
                                           "MODALITATI DE PLATA",
                                           overflow: TextOverflow.ellipsis,
-                                          style: AppTextStyle(
-                                            context,
-                                          ).bodyText.copyWith(
+                                          style: AppTextStyle(context).bodyText
+                                              .copyWith(
                                                 fontSize: 15.sp,
                                                 fontWeight: FontWeight.w600,
                                               ),
@@ -735,10 +730,10 @@ class _EcommerceHomeViewLayoutState
           Text(
             name!,
             style: AppTextStyle(context).bodyText.copyWith(
-                  fontSize: 14,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                ),
+              fontSize: 14,
+              color: Colors.black,
+              fontWeight: FontWeight.w500,
+            ),
           ),
           Container(
             height: 22,
@@ -751,10 +746,10 @@ class _EcommerceHomeViewLayoutState
             child: Text(
               count.toString(),
               style: AppTextStyle(context).bodyText.copyWith(
-                    fontSize: 14,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w400,
-                  ),
+                fontSize: 14,
+                color: Colors.black,
+                fontWeight: FontWeight.w400,
+              ),
             ),
           ),
         ],
@@ -786,9 +781,7 @@ class _EcommerceHomeViewLayoutState
           itemBuilder: (context, index) => ProductCard(
             product: products[index],
             onTap: () => context.nav.pushNamed(
-              Routes.getProductDetailsRouteName(
-                AppConstants.appServiceName,
-              ),
+              Routes.getProductDetailsRouteName(AppConstants.appServiceName),
               arguments: products[index].id,
             ),
           ),
@@ -804,7 +797,7 @@ class _EcommerceHomeViewLayoutState
           bottom: 20.h,
           left: 20.w,
           right: 20.w,
-          child: _buildViewMoreButton(context, 'Just For You', 'just_for_you'),
+          child: _buildViewMoreButton2(context, 'Just For You', 'just_for_you'),
         ),
       ],
     );
@@ -913,9 +906,7 @@ class _EcommerceHomeViewLayoutState
               padding: EdgeInsets.only(right: 10.w),
               child: ShopCardCircle(
                 callback: () => context.nav.pushNamed(
-                  Routes.getShopViewRouteName(
-                    AppConstants.appServiceName,
-                  ),
+                  Routes.getShopViewRouteName(AppConstants.appServiceName),
                   arguments: shops[index].id,
                 ),
                 shop: shops[index],
@@ -946,7 +937,7 @@ class _EcommerceHomeViewLayoutState
               null,
               null,
               subCategories,
-              'popular'
+              'popular',
             ],
           ),
           SizedBox(
@@ -993,7 +984,7 @@ class _EcommerceHomeViewLayoutState
               null,
               null,
               subCategories,
-              'latest'
+              'latest',
             ],
           ),
           SizedBox(
@@ -1107,9 +1098,7 @@ class _EcommerceHomeViewLayoutState
               Gap(10.h),
               GestureDetector(
                 onTap: () => context.nav.pushNamed(
-                  Routes.getProductsViewRouteName(
-                    AppConstants.appServiceName,
-                  ),
+                  Routes.getProductsViewRouteName(AppConstants.appServiceName),
                   arguments: [
                     null,
                     'Toate Produsele',
@@ -1195,11 +1184,12 @@ class _EcommerceHomeViewLayoutState
           null,
           null,
           subCategories,
-          true
+          true,
         ],
       ),
       style: OutlinedButton.styleFrom(
-        backgroundColor: GlobalFunction.getBackgroundColor(context: context) !=
+        backgroundColor:
+            GlobalFunction.getBackgroundColor(context: context) !=
                 colors(context).dark
             ? EcommerceAppColor.blueChalk
             : colors(context).accentColor,
@@ -1214,9 +1204,87 @@ class _EcommerceHomeViewLayoutState
           Text(
             S.of(context).viewMore,
             style: AppTextStyle(context).bodyTextSmall.copyWith(
-                  color: colors(context).primaryColor,
-                  fontWeight: FontWeight.w600,
-                ),
+              color: colors(context).primaryColor,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          Gap(3.w),
+          SvgPicture.asset(
+            Assets.svg.arrowRight,
+            colorFilter: ColorFilter.mode(
+              colors(context).primaryColor!,
+              BlendMode.srcIn,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildViewMoreButton2(
+    BuildContext context,
+    String title,
+    String argument,
+  ) {
+    return OutlinedButton(
+      onPressed: () => {
+        //   context.nav.pushNamed(
+        //   Routes.getProductsViewRouteName(AppConstants.appServiceName),
+        //   arguments: [
+        //     null,
+        //     S.of(context).justForYou,
+        //     argument,
+        //     null,
+        //     null,
+        //     subCategories,
+        //     true
+        //   ],
+        // )
+
+        // context, S.of(context).popularProducts,
+        //       Routes.getProductsViewRouteName(AppConstants.appServiceName),
+        // arguments: [
+        //   null,
+        //   'Popular',
+        //   'popular',
+        //   null,
+        //   null,
+        //   subCategories,
+        //   'popular'
+        // ]
+        context.nav.pushNamed(
+          Routes.getProductsViewRouteName(AppConstants.appServiceName),
+          arguments: [
+            null,
+            'Latest',
+            'latest',
+            null,
+            null,
+            subCategories,
+            'latest',
+          ],
+        ),
+      },
+      style: OutlinedButton.styleFrom(
+        backgroundColor:
+            GlobalFunction.getBackgroundColor(context: context) !=
+                colors(context).dark
+            ? EcommerceAppColor.blueChalk
+            : colors(context).accentColor,
+        padding: EdgeInsets.symmetric(horizontal: 10.w),
+        side: BorderSide(color: EcommerceAppColor.primary, width: 1),
+        minimumSize: Size(MediaQuery.of(context).size.width, 45.h),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            S.of(context).viewMore,
+            style: AppTextStyle(context).bodyTextSmall.copyWith(
+              color: colors(context).primaryColor,
+              fontWeight: FontWeight.w600,
+            ),
           ),
           Gap(3.w),
           SvgPicture.asset(
@@ -1286,9 +1354,9 @@ class _EcommerceHomeViewLayoutState
                       _defaultAddress(context, addressData),
                       overflow: TextOverflow.ellipsis,
                       style: AppTextStyle(context).bodyText.copyWith(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                          ),
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                      ),
                     );
                   },
                 ),
@@ -1367,8 +1435,9 @@ class DealOfTheDayWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     DateTime? endDate;
-    final runningSaleData =
-        ref.watch(flashSalesListControllerProvider.notifier).runningFlashSale;
+    final runningSaleData = ref
+        .watch(flashSalesListControllerProvider.notifier)
+        .runningFlashSale;
     if (runningSaleData != null) {
       endDate = DateTime.parse(runningSaleData.endDate ?? "");
     }
@@ -1402,9 +1471,9 @@ class DealOfTheDayWidget extends ConsumerWidget {
                           Text(
                             S.of(context).endingIn,
                             style: AppTextStyle(context).bodyText.copyWith(
-                                  fontSize: 16.sp,
-                                  color: EcommerceAppColor.white,
-                                ),
+                              fontSize: 16.sp,
+                              color: EcommerceAppColor.white,
+                            ),
                           ),
                           Gap(10.w),
                           if (endDate != null)
@@ -1413,10 +1482,10 @@ class DealOfTheDayWidget extends ConsumerWidget {
                                 context,
                               ).bodyText.copyWith(color: FoodAppColor.white),
                               style: AppTextStyle(context).title.copyWith(
-                                    color: FoodAppColor.carrotOrange,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 14.sp,
-                                  ),
+                                color: FoodAppColor.carrotOrange,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 14.sp,
+                              ),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(4.r),
                                 color: EcommerceAppColor.white,
